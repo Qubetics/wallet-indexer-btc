@@ -36,7 +36,6 @@ export const config = {
   MIN_BTC_TRANSACTION_CONFORMATIONS: zookeeperConfig.config.MIN_BTC_TRANSACTION_CONFORMATIONS,
   LAST_BLOCK_NUMBER_BTC: `${name}_${zookeeperConfig.config.SERVER}_${zookeeperConfig.config.LAST_BLOCK_NUMBER_BTC}`,
   TOKEN_TYPE_BTC: `${name}_${zookeeperConfig.config.SERVER}_${zookeeperConfig.config.TOKEN_TYPE_BTC}`,
-  // COIN_FAMILY_BTC: zookeeperConfig.config.COIN_FAMILY_BTC,
   STATIC_COIN_FAMILY: zookeeperConfig.config.STATIC_COIN_FAMILY,
   UPDATE_BTC_BLOCK_STATUS: zookeeperConfig.config.UPDATE_BTC_BLOCK_STATUS,
   PREVIOUS_LAST_BLOCK_NUMBER: '',
