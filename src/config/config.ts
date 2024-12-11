@@ -1,5 +1,5 @@
 import zookeeperConfig from "../helpers/zookeeper.helper";
-const name = 'future';
+const name = 'qubetics';
 export const config = {
   DB_USER: zookeeperConfig.config.DB_USER,
   DB_HOST_READ: zookeeperConfig.config.DB_HOST_READ,

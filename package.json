@@ -1,7 +1,7 @@
 {
-  "name": "future_btc_processes",
+  "name": "qubetics_btc_processes",
   "version": "1.0.0",
-  "description": "Process for future btc processes",
+  "description": "Process for qubetics btc processes",
   "main": "index.js",
   "scripts": {
     "compile": "tsc",

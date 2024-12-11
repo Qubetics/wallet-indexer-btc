@@ -21,7 +21,7 @@ class ZookeeprProvider {
       console.debug(`process.env.ZOOKEEPER_PATH...`, process.env.ZOOKEEPER_PATH);
       client.once('connected', () => {
         client.getData(
-          process.env.ZOOKEEPER_PATH || '/future_processes',
+          process.env.ZOOKEEPER_PATH || '/qubetics_wallet',
           (err: any, data: any, _: any) => {
             if (err) {
               console.error(`connectZookeeper err...`, err);
