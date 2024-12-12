@@ -59,7 +59,7 @@ class DbHelper {
             return await DeviceTokenModel.findAll({
                 attributes: ["device_token"],
                 where: {
-                    user_id: user_id,
+                    // user_id: user_id,
                     push: BooleanEnum.true,
                     address: {
                         [Op.like]: address,

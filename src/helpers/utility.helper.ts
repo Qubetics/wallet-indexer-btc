@@ -1,17 +1,25 @@
 import BigNumber from "bignumber.js";
-const FCM = require("fcm-node");
+// const FCM = require("fcm-node");
 import { Db_Helper } from ".";
 import { config } from "../config";
 import { NotificationModel } from "../models/tables";
-const firebaseAdmin = require("firebase-admin");
-import fcmServiceAccount from "../constants/firebase.admin.key.json";
+// const firebaseAdmin = require("firebase-admin");
+// import fcmServiceAccount from "../constants/firebase.admin.key.json";
+import firebaseAdmin from 'firebase-admin';
+const fcmServiceAccount = require("../constants/firebase.admin.key.json");
 
 class UtilityHelper {
+  public messaging: firebaseAdmin.messaging.Messaging;
+
   constructor() {
     (async () => {
-      await firebaseAdmin.initializeApp({
+      firebaseAdmin.initializeApp({
         credential: firebaseAdmin.credential.cert(fcmServiceAccount),
       });
+      this.messaging = firebaseAdmin.messaging();
+      // await firebaseAdmin.initializeApp({
+      //   credential: firebaseAdmin.credential.cert(fcmServiceAccount),
+      // });
     })();
   }
 
@@ -149,16 +157,16 @@ class UtilityHelper {
             ? ""
             : data.announcement_message;
 
-        const messaging = firebaseAdmin.messaging();
+        // const messaging = firebaseAdmin.messaging();
         const notification = {
           title: data.title,
           body: data.message,
         };
 
-        messaging
-          .sendMulticast({
+        this.messaging
+          .sendEachForMulticast({
             tokens: finalDeviceTokens,
-            collapse_key: "type_a",
+            // collapse_key: "type_a",
             notification: notification,
             data: {
               body: data.message ? data.message : "",
