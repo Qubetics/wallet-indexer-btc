@@ -70,7 +70,7 @@ class DbHelper {
                     ["updated_at", "DESC"],
                     ['id', 'DESC']
                 ],
-                limit: 3,
+                // limit: 3,
                 raw: true
             });
         } catch (error: any) {

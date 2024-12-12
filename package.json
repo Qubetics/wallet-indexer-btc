@@ -7,7 +7,7 @@
     "compile": "tsc",
     "server": "nodemon build/index.btc.js",
     "dev": "concurrently \"npm run compile\" \"npm run server\"",
-    "start": "npm run compile && cp -a ./src/constants/firebase.admin.key.json ./build/constants/firebase.admin.key.json && node build/index.btc.js"
+    "start": "npm run compile && node build/index.btc.js"
   },
   "keywords": [
     "processes"

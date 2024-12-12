@@ -46,9 +46,9 @@ export const config = {
     ALL_PROCESSES: zookeeperConfig.config.ALL_PROCESSES,
     SPECIFIC_BLOCK_BTC: zookeeperConfig.config.SPECIFIC_BLOCK_BTC
   },
-  // added new
-  KEYS: {
-    FCM_PUSH: zookeeperConfig.config.FCM_PUSH
-  },
+  // // added new
+  // KEYS: {
+  //   FCM_PUSH: zookeeperConfig.config.FCM_PUSH
+  // },
 
 }
