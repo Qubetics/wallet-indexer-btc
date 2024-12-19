@@ -231,7 +231,7 @@ class UtilityHelper {
           coin_id: data.coin_id,
           coin_family: data.coin_family,
           wallet_address: data.wallet_address,
-          tx_type: data.notification_type,
+          tx_type: data.tx_type,
           view_status: "0",
           state: "0",
         };
