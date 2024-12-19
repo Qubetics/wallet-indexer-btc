@@ -191,7 +191,7 @@ class ConfirmDepositProcess {
           coin_family: data.coin.coin_family,
           coin_id: data.coin.coin_id,
           tx_type: tx_type,
-          notification_type: NotificationTypeEnum.DEPOSIT,
+          notification_type: trnxTypeD,
           state: "confirmed",
           amount: amount
         };

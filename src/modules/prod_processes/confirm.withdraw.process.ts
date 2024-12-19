@@ -153,7 +153,7 @@ class BTCTxStatusUpdateProcess {
                 coin_id: coin_id,
                 coin_family: coin_family,
                 tx_type: tx_type,
-                notification_type: NotificationTypeEnum.DEPOSIT,
+                notification_type: trnxTypeD,
                 state: "confirmed"
               };
               Utility_Helper.SendNotification(notifData);
