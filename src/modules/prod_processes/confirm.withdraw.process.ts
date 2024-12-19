@@ -5,6 +5,7 @@ import { TrnxHistoryModel } from '../../models/tables';
 import { Op } from 'sequelize';
 import { BlockChainStatusEnum, NotificationTypeEnum, TrnxTypeEnum } from '../../enum/index';
 import btcProcessHelper from '../prod_processes/process.helper';
+import { title } from 'process';
 class BTCTxStatusUpdateProcess {
 
   public startTxStatusUpdateQueue = async () => {
@@ -87,31 +88,31 @@ class BTCTxStatusUpdateProcess {
               /** Update User Btc Balance */
               await Db_Helper.Update_Balance(from_address, coin_data, balance);
               let trnxTypeW: string = "Withdraw";
-              trnxTypeW = tx_type
-              switch (tx_type) {
-                case TrnxTypeEnum.DAPP:
-                  trnxTypeW = "Smart Contract Execution";
-                  break;
-                case TrnxTypeEnum.APPROVE:
-                  trnxTypeW = "Approval";
-                  break;
-                case TrnxTypeEnum.SWAP:
-                  trnxTypeW = "Swap";
-                  break;
-                case TrnxTypeEnum.CROSS_CHAIN:
-                  trnxTypeW = "Cross-chain Swap";
-                  break;
-                case TrnxTypeEnum.WITHDRAW:
-                  trnxTypeW = "Withdraw";
-                  break;
-                default:
-                  break;
-              }
+              // switch (tx_type) {
+              //   case TrnxTypeEnum.DAPP:
+              //     trnxTypeW = "Smart Contract Execution";
+              //     break;
+              //   case TrnxTypeEnum.APPROVE:
+              //     trnxTypeW = "Approval";
+              //     break;
+              //   case TrnxTypeEnum.SWAP:
+              //     trnxTypeW = "Swap";
+              //     break;
+              //   case TrnxTypeEnum.CROSS_CHAIN:
+              //     trnxTypeW = "Cross-chain Swap";
+              //     break;
+              //   case TrnxTypeEnum.WITHDRAW:
+              //     trnxTypeW = "Withdraw";
+              //     break;
+              //   default:
+              //     break;
+              // }
               const notiMsg = `${trnxTypeW} of ${await Utility_Helper.bigNumberSafeConversion(
                 amount
               )} ${coin_symbol.toUpperCase()} has been confirmed.`;
               let notifData: any = {
-                notification_type: NotificationTypeEnum.WITHDRAW.toUpperCase(),
+                title: trnxTypeW.toUpperCase(),
+                notification_type: trnxTypeW,
                 message: notiMsg,
                 from_user_id: 0,
                 amount: amount,
@@ -120,6 +121,7 @@ class BTCTxStatusUpdateProcess {
                 wallet_address: from_address,
                 tx_id: tx_row_id,
                 coin_id: coin_id,
+                coin_family: coin_family,
                 tx_type: tx_type,
                 state: "confirmed"
               };
@@ -140,6 +142,7 @@ class BTCTxStatusUpdateProcess {
               )} ${coin_symbol.toUpperCase()} has been confirmed.`;
 
               let notifData: any = {
+                title: trnxTypeD.toUpperCase(),
                 message: notiMsg,
                 amount: amount,
                 from_user_id: user_id,
@@ -148,6 +151,7 @@ class BTCTxStatusUpdateProcess {
                 tx_id: tx_row_id,
                 coin_symbol: coin_symbol,
                 coin_id: coin_id,
+                coin_family: coin_family,
                 tx_type: tx_type,
                 notification_type: NotificationTypeEnum.DEPOSIT,
                 state: "confirmed"
@@ -157,7 +161,42 @@ class BTCTxStatusUpdateProcess {
 
             return true;
           } else {
-            return false;
+            let trnxTypeW: string = "Withdraw";
+            // switch (tx_type) {
+            //   case TrnxTypeEnum.DAPP:
+            //     trnxTypeW = "Smart Contract Execution";
+            //     break;
+            //   case TrnxTypeEnum.APPROVE:
+            //     trnxTypeW = "Approval";
+            //     break;
+            //   case TrnxTypeEnum.SWAP:
+            //     trnxTypeW = "Swap";
+            //     break;
+            //   case TrnxTypeEnum.CROSS_CHAIN:
+            //     trnxTypeW = "Cross-chain Swap";
+            //     break;
+            //   default:
+            //     break;
+            // }
+
+            let notiMsg = `${trnxTypeW} request of ${await Utility_Helper.bigNumberSafeConversion(amount)} ${coin_symbol?.toUpperCase()} has been failed.`;
+            let notifData: any = {
+              title: trnxTypeW.toUpperCase(),
+              message: notiMsg,
+              amount: amount,
+              from_user_id: 0,
+              to_user_id: user_id,
+              wallet_address: from_address,
+              tx_id: tx_row_id,
+              coin_symbol: coin_symbol,
+              coin_id: coin_id,
+              coin_family: coin_family,
+              tx_type: tx_type,
+              notification_type: NotificationTypeEnum.WITHDRAW,
+              state: "failed"
+            };
+            Utility_Helper.SendNotification(notifData);
+            // return false;
           }
         } else {
           return false;

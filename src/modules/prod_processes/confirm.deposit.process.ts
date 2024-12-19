@@ -125,13 +125,8 @@ class ConfirmDepositProcess {
           return false;
         }
       }
-
-
-
       let Addressdeposit: any = await btcProcessHelper.check_our_wallet_address(to_address);
       let to_user_id: number = Addressdeposit ? Addressdeposit.user_id : 0;
-
-
       let trx_data: any = {
         user_id: 0,
         to_user_id: to_user_id,
@@ -154,25 +149,25 @@ class ConfirmDepositProcess {
       if (Addressdeposit) {
         let trnxTypeD: string = "Deposit";
         trnxTypeD = tx_type
-        switch (tx_type) {
-          case TrnxTypeEnum.DAPP:
-            trnxTypeD = "Smart Contract Execution";
-            break;
-          case TrnxTypeEnum.APPROVE:
-            trnxTypeD = "Approval";
-            break;
-          case TrnxTypeEnum.SWAP:
-            trnxTypeD = "Swap";
-            break;
-          case TrnxTypeEnum.CROSS_CHAIN:
-            trnxTypeD = "Cross-chain Swap";
-            break;
-          case TrnxTypeEnum.DEPOSIT:
-            trnxTypeD = "Deposit";
+        // switch (tx_type) {
+        //   case TrnxTypeEnum.DAPP:
+        //     trnxTypeD = "Smart Contract Execution";
+        //     break;
+        //   case TrnxTypeEnum.APPROVE:
+        //     trnxTypeD = "Approval";
+        //     break;
+        //   case TrnxTypeEnum.SWAP:
+        //     trnxTypeD = "Swap";
+        //     break;
+        //   case TrnxTypeEnum.CROSS_CHAIN:
+        //     trnxTypeD = "Cross-chain Swap";
+        //     break;
+        //   case TrnxTypeEnum.DEPOSIT:
+        //     trnxTypeD = "Deposit";
 
-          default:
-            break;
-        }
+        //   default:
+        //     break;
+        // }
 
         let fetchBalance = await utxo.getUserBtcBalance(to_address);
         let balance: number | any = fetchBalance ? Number(fetchBalance) : null;
@@ -186,7 +181,7 @@ class ConfirmDepositProcess {
         )} ${data.coin?.coin_symbol?.toUpperCase()} has been confirmed.`;
 
         let notifData: any = {
-          // title: NotificationTypeEnum.DEPOSIT?.toUpperCase(),
+          title: NotificationTypeEnum.DEPOSIT?.toUpperCase(),
           message: notiMsg,
           from_user_id: 0,
           to_user_id: to_user_id,
