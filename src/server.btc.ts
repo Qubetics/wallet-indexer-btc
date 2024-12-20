@@ -81,7 +81,7 @@ class BTCStartProcess {
     }
   }
 
-  
+
   public async btcUpdatePendingTxBalance() {
     try {
       setTimeout(async () => {

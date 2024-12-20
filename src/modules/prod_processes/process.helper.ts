@@ -63,7 +63,7 @@ class BTCProcessHelper {
     value: string
   ) => {
     try {
-      redisClient.hsetnx(
+      redisClient.hset(
         keyName,
         field.toUpperCase(),
         value

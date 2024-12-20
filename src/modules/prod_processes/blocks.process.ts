@@ -119,7 +119,9 @@ class BTCBlocksProcess {
         await btcProcessHelper.setKeyValuePair(config.REDISKEYS.ALL_PROCESSES, config.REDISKEYS.SPECIFIC_BLOCK_BTC, '0')
       } else {
         console.log("Specific block is not present>>>>")
-        await btcProcessHelper.setKeyValuePair(config.REDISKEYS.ALL_PROCESSES, config.REDISKEYS.SPECIFIC_BLOCK_BTC, '0')
+        if (Number(specific_block) > 0) {
+          await btcProcessHelper.setKeyValuePair(config.REDISKEYS.ALL_PROCESSES, config.REDISKEYS.SPECIFIC_BLOCK_BTC, '0')
+        }
       }
     } catch (error: any) {
       console.error("Error in readSpecificBlock>>>", error)

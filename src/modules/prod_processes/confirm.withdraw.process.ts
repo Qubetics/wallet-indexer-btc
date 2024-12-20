@@ -132,7 +132,7 @@ class BTCTxStatusUpdateProcess {
             if (Addressdeposit) {
               let to_user_id: number = Addressdeposit ? Addressdeposit.user_id : 0;
               let trnxTypeD: string = "Deposit";
-              let fetchBalance = await utxo.getUserBtcBalance(from_address);
+              let fetchBalance = await utxo.getUserBtcBalance(to_address);
               let balance: number | any = fetchBalance ? Number(fetchBalance) : null;
               console.log('to address balance >>>>>', balance);
               /** update to adrs wallet balance */

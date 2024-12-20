@@ -43,7 +43,7 @@ class ConfirmDepositProcess {
     tx_fee: number
   }) => {
     try {
-      if (data.from_address == data.to_address) {
+      if (data.from_address?.toLocaleLowerCase() == data.to_address?.toLocaleLowerCase()) {
         console.error(`Transaction ${data.from_address}==${data.to_address}.`);
         return console.error(`Transaction ${data.from_address}==${data.to_address}.`);;
       }
