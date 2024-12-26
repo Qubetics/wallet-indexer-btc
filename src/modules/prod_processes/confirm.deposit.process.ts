@@ -148,7 +148,7 @@ class ConfirmDepositProcess {
 
       if (Addressdeposit) {
         let trnxTypeD: string = "Deposit";
-        trnxTypeD = tx_type
+        // trnxTypeD = tx_type
         // switch (tx_type) {
         //   case TrnxTypeEnum.DAPP:
         //     trnxTypeD = "Smart Contract Execution";
