@@ -192,7 +192,7 @@ class BTCTxStatusUpdateProcess {
               coin_id: coin_id,
               coin_family: coin_family,
               tx_type: tx_type,
-              notification_type: NotificationTypeEnum.WITHDRAW,
+              notification_type: trnxTypeW,
               state: "failed"
             };
             Utility_Helper.SendNotification(notifData);
