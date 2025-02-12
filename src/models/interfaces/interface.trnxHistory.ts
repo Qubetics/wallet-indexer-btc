@@ -14,11 +14,11 @@ export interface ITrnxHistoryInterface {
     tx_raw: string;
     status: string;
     blockchain_status: string | null;
-    queue_check_count: number | 0;
+    // queue_check_count: number | 0;
     amount: number;
     block_id: number;
-    block_hash: string;
-    speedup: string;
+    // block_hash: string;
+    // speedup: string;
     nonce: number;
     tx_fee: number | null;
     swap_fee: number | 0;
@@ -27,5 +27,5 @@ export interface ITrnxHistoryInterface {
     gas_reverted: number;
     fiat_price: number | null,
     fiat_type: string | null,
-    country_code: string,
+    // country_code: string,
 }

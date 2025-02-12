@@ -71,11 +71,11 @@ let dataObj = {
         type: DataTypes.ENUM('pending', 'failed', 'confirmed'),
         allowNull: true
     },
-    queue_check_count: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0
-    },
+    // queue_check_count: {
+    //     type: DataTypes.INTEGER,
+    //     allowNull: false,
+    //     defaultValue: 0
+    // },
     amount: {
         type: DataTypes.DOUBLE,
         allowNull: false
@@ -84,14 +84,14 @@ let dataObj = {
         type: DataTypes.INTEGER,
         allowNull: true
     },
-    block_hash: {
-        type: DataTypes.STRING,
-        allowNull: true
-    },
-    speedup: {
-        type: DataTypes.ENUM('slow', 'average', 'fast'),
-        allowNull: true
-    },
+    // block_hash: {
+    //     type: DataTypes.STRING,
+    //     allowNull: true
+    // },
+    // speedup: {
+    //     type: DataTypes.ENUM('slow', 'average', 'fast'),
+    //     allowNull: true
+    // },
     nonce: {
         type: DataTypes.INTEGER,
         allowNull: true
@@ -124,10 +124,10 @@ let dataObj = {
         type: DataTypes.STRING(191),
         allowNull: true
     },
-    country_code: {
-        type: DataTypes.STRING(191),
-        allowNull: true
-    },
+    // country_code: {
+    //     type: DataTypes.STRING(191),
+    //     allowNull: true
+    // },
 };
 
 let dataObjIndex = {
