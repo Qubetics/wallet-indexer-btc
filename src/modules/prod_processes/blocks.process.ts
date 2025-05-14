@@ -20,6 +20,7 @@ class BTCBlocksProcess {
       const lastBlockToProcess: any = currentBlock - this.minBlockConfirmation;
       console.log('lastBlockToProcess >>>', lastBlockToProcess);
 
+
       const lastBlockProcessed: any = await btcProcessHelper.getBlockNumber(config.LAST_BLOCK_NUMBER_BTC || '');
       if (!lastBlockProcessed) {
         await btcProcessHelper.setRedisSting(config.LAST_BLOCK_NUMBER_BTC || '', lastBlockToProcess);
