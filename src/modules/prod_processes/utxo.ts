@@ -1,8 +1,6 @@
 import { config } from '../../config';
 import axios, { AxiosInstance } from "axios";
 class UTXO {
-  // private clientUrl = config.config.BTC_RPC_URL;
-  // private axiosClient: AxiosInstance;
   public config: any;
   constructor() {
     this.config = {
@@ -12,13 +10,6 @@ class UTXO {
         'Content-Type': 'application/json',
       }
     };
-    // this.axiosClient = axios.create({
-    //   baseURL: this.clientUrl,
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     apikey: "REDACTED"
-    //   },
-    // });
   }
 
   async getNodeInfo() {
@@ -68,7 +59,6 @@ class UTXO {
       return response.data.balance / 100000000;
     } catch (error: any) {
       console.error('error getUserBtcBalance >>>>>>', error);
-      //return (error as Error).message;
       return null;
     }
   }

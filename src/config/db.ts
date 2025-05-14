@@ -46,10 +46,8 @@ class Database implements DBInterface {
         acquire: 60000
       }
     });
-    // this.syncTables();
   }
   public async syncTables() {
-    // await this.db.sync({ alter: true });
   }
 }
 const database = new Database();

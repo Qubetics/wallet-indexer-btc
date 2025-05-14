@@ -4,7 +4,6 @@ import utxo from './utxo';
 import btcProcessHelper from './process.helper';
 import { Kafka_Helper } from '../../helpers/index';
 import { TrnxTypeEnum } from '../../enum/index';
-// import { SettingsModel } from '../../models//tables/index';
 class BTCBlocksProcess {
   public minBlockConfirmation: number;
   public depositWithdrawTopic = config.KAFKA_TRANSACTIONS.DEPOSIT_WITHDRAW_TOPIC;
@@ -75,7 +74,6 @@ class BTCBlocksProcess {
                   } = {
                     tx_id: iterator.txid,
                     from_address: from ? from : '',
-                    // to_address: txData.addresses[0],
                     to_address: to_address,
                     amount: amount,
                     tx_type: TrnxTypeEnum.DEPOSIT,
@@ -86,7 +84,6 @@ class BTCBlocksProcess {
                   await _this.addTxToQueue(
                     dataObj,
                     _this.depositWithdrawTopic || ''
-                    //config.DEPOSIT_WITHDRAW_PROCESS_BTC || ''
                   );
                 }
 
@@ -103,8 +100,6 @@ class BTCBlocksProcess {
   public addTxToQueue = async (data: any, queueName: string) => {
     try {
       await Kafka_Helper.produceMessage(queueName, data);
-      // await RabbitMq_Helper.assertQueue(queueName);
-      // await RabbitMq_Helper.sendToQueue(queueName, Buffer.from(JSON.stringify(data)));
     } catch (error: any) {
       console.error('addTxToQueue error', (error as Error).message);
     }
@@ -129,33 +124,6 @@ class BTCBlocksProcess {
     }
 
   }
-  // public async testingNode() {
-  //   try {
-  //     // Get Block Number
-  //     let getBlockInfo: any = await utxo.getLatestBlock();
-  //     // console.debug("getBlockInfo >>>>>>>>>>>", getBlockInfo)
-  //     let blockId: number = parseInt(getBlockInfo)
-
-  //     // Get Block Info
-  //     const blockHash: any = await utxo.getblockHash(blockId, 1);
-  //     // console.log("blockInfo>>", blockHash.txs[0].txid)
-
-  //     // Get Block Receipt
-  //     const transaction: any = await utxo.getTransactionById(blockHash.txs[0].txid)
-  //     // console.log("txreceipt>>", transaction)
-
-  //     // Get Balance
-  //     const balance: any = await utxo.getUserBtcBalance("bc1qexampleaddress")
-  //     // console.log("balance>>", balance)
-
-  //     // Get Node Info
-  //     // const info: any = await utxo.getNodeInfo()
-  //     // console.log("info>>", info)
-
-  //   } catch (err: any) {
-  //     console.error("Error in testingNode>>", err)
-  //   }
-  // }
 }
 
 const btcBlocksProcess = new BTCBlocksProcess();

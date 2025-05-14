@@ -5,7 +5,6 @@ import {
 } from "../models/tables";
 import { CoinInterface } from "../models/interfaces";
 import { config } from "../config/config";
-// import { RabbitMq_Helper } from "./rabbitmq.helper";
 import { Kafka_Helper } from "./kafka.helper";
 import { Op } from "sequelize";
 class DbHelper {
@@ -36,18 +35,13 @@ class DbHelper {
                 return true
             }
             else {
-                //let queue = config.BTC_ADDRESSES_PENDING_BALANCE_UPDATE;
                 let data = {
                     coin_data: coin,
                     wallet_address: wallet_address,
                     queue_count: 0,
                 }
                 Kafka_Helper.produceMessage(this.btc_pending_balance_update_topic, data)
-                // await RabbitMq_Helper.assertQueue(queue);
-                // await RabbitMq_Helper.sendToQueue(queue,Buffer.from(JSON.stringify(data)));
-
             }
-            // throw new Error(`Node Issue `);
         } catch (error: any) {
             console.error(`WalletHelper Update_Balance error >>>`, error);
             return {};
@@ -59,7 +53,6 @@ class DbHelper {
             return await DeviceTokenModel.findAll({
                 attributes: ["device_token"],
                 where: {
-                    // user_id: user_id,
                     push: BooleanEnum.true,
                     address: {
                         [Op.like]: address,
@@ -70,7 +63,6 @@ class DbHelper {
                     ["updated_at", "DESC"],
                     ['id', 'DESC']
                 ],
-                // limit: 3,
                 raw: true
             });
         } catch (error: any) {

@@ -31,9 +31,7 @@ class BTCStartProcess {
   public readBlocksProcess() {
     schedule.scheduleJob('*/15 * * * * *', async function () {
       try {
-        // if (config.SERVER == 'stage' || config.SERVER == 'dev' || config.SERVER == 'prod') {
         await btcBlocksProdProcess.readBlocks();
-        // }
       } catch (error) {
         console.error('readBlocksProcess >>', error);
       }
@@ -48,9 +46,7 @@ class BTCStartProcess {
   public pendingWithdrawalProcess() {
     schedule.scheduleJob('*/5 * * * * *', async function () {
       try {
-        // if (config.SERVER == 'stage' || config.SERVER == 'dev' || config.SERVER == 'prod') {
         await btcPendingWithdrawalProdProcess.getTransactionFromDB();
-        // }
       } catch (error) {
         console.error('pendingWithdrawalProcess >>', error);
       }
@@ -60,9 +56,7 @@ class BTCStartProcess {
   public async confirmDepositProcess() {
     try {
       setTimeout(async () => {
-        // if (config.SERVER == 'stage' || config.SERVER == 'dev' || config.SERVER == 'prod') {
         await confirmDepositProdProcess.startDepositQueue();
-        // }
       }, 10000);
     } catch (error) {
       console.error('confirmDepositProcess >>', error);
@@ -72,9 +66,7 @@ class BTCStartProcess {
   public async btcTxStatusUpdateProcess() {
     try {
       setTimeout(async () => {
-        // if (config.SERVER == 'stage' || config.SERVER == 'dev' || config.SERVER == 'prod') {
         await btcTxStatusUpdateProdProcess.startTxStatusUpdateQueue();
-        // }
       }, 10000);
     } catch (error) {
       console.error('btcTxStatusUpdateProcess >>', error);
@@ -85,9 +77,7 @@ class BTCStartProcess {
   public async btcUpdatePendingTxBalance() {
     try {
       setTimeout(async () => {
-        // if (config.SERVER == 'stage' || config.SERVER == 'dev' || config.SERVER == 'prod') {
         await pendingBalanceUpdateBtc.update_wallet_balance();
-        // }
       }, 10000);
     } catch (error) {
       console.error('btcUpdatePendingTxBalance >>', error);

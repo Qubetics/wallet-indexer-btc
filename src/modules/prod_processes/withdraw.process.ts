@@ -1,5 +1,3 @@
-// import Sequelize from "sequelize";
-// import database from "../../config/db";
 import { config } from "../../config";
 import { Kafka_Helper } from "../../helpers/index";
 import { TrnxHistoryModel } from "../../models/tables";
@@ -36,8 +34,6 @@ class BTCPendingWithdrawalProcess {
     try {
 
       await Kafka_Helper.produceMessage(this.btc_pending_withdrawal_tx_topic, { txId: txId });
-      // await RabbitMq_Helper.assertQueue(config.config.PENDING_WITHDRAWAL_TX_PROCESS_BTC);
-      // await RabbitMq_Helper.sendToQueue(config.config.PENDING_WITHDRAWAL_TX_PROCESS_BTC, Buffer.from(JSON.stringify({ txId: txId })));
     } catch (error) {
       console.error('addTxToQueue error', error);
     }

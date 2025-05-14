@@ -9,7 +9,6 @@ class RedisServer {
     }
 
     public async initiateConnection(): Promise<void> {
-        // this.client = redis.createClient(Number(config.config.REDIS_PORT), config.config.REDIS_HOST_WRITE);
         this.client = redis.createClient({ url: config.config.REDIS_CONN });
 
         this.client.on("connect", () => {
