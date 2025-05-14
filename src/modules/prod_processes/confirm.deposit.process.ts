@@ -18,8 +18,6 @@ class ConfirmDepositProcess {
 
     await consumer.run({
       eachMessage: ({ topic, partition, message }: { topic: any, partition: any, message: any }) => {
-        // console.log("🚀 ~ startBlockTxQueue topic", topic);
-        // console.log("🚀 ~ startBlockTxQueue message.value", message.value.toString());
         this.getTransaction(JSON.parse(message.value.toString()))
       }
     }).catch((err: Error) => {
@@ -27,12 +25,6 @@ class ConfirmDepositProcess {
     });
   };
 
-  // public startDepositQueue = async () => {
-  //   await RabbitMq_Helper.consumeQueue(
-  //     config.DEPOSIT_WITHDRAW_PROCESS_BTC || "",
-  //     this.getTransaction
-  //   );
-  // };
   public getTransaction = async (data: {
     tx_id: string;
     from_address: string;
@@ -148,27 +140,6 @@ class ConfirmDepositProcess {
 
       if (Addressdeposit) {
         let trnxTypeD: string = "Deposit";
-        // trnxTypeD = tx_type
-        // switch (tx_type) {
-        //   case TrnxTypeEnum.DAPP:
-        //     trnxTypeD = "Smart Contract Execution";
-        //     break;
-        //   case TrnxTypeEnum.APPROVE:
-        //     trnxTypeD = "Approval";
-        //     break;
-        //   case TrnxTypeEnum.SWAP:
-        //     trnxTypeD = "Swap";
-        //     break;
-        //   case TrnxTypeEnum.CROSS_CHAIN:
-        //     trnxTypeD = "Cross-chain Swap";
-        //     break;
-        //   case TrnxTypeEnum.DEPOSIT:
-        //     trnxTypeD = "Deposit";
-
-        //   default:
-        //     break;
-        // }
-
         let fetchBalance = await utxo.getUserBtcBalance(to_address);
         let balance: number | any = fetchBalance ? Number(fetchBalance) : null;
         await Db_Helper.Update_Balance(

@@ -14,8 +14,6 @@ class BTCTxStatusUpdateProcess {
 
     await consumer.run({
       eachMessage: ({ topic, partition, message }: { topic: any, partition: any, message: any }) => {
-        // console.log("🚀 ~ startBlockTxQueue topic", topic);
-        // console.log("🚀 ~ startBlockTxQueue message.value", message.value.toString());
         this.getTx(JSON.parse(message.value.toString()))
       }
     }).catch((err: Error) => {
@@ -23,16 +21,6 @@ class BTCTxStatusUpdateProcess {
     });
   };
 
-  // public startTxStatusUpdateQueue = async () => {
-  //   try {
-  //     await RabbitMq_Helper.consumeQueue(
-  //       config.PENDING_WITHDRAWAL_TX_PROCESS_BTC || "",
-  //       this.getTx
-  //     );
-  //   } catch (error: any) {
-  //     console.error('startTxStatusUpdateQueue >>>>', error);
-  //   }
-  // };
   public getTx = async (data: { txId: string }) => {
     try {
       await utxo.getTransactionById(data.txId).then(async (rawData) => {
@@ -88,25 +76,6 @@ class BTCTxStatusUpdateProcess {
               /** Update User Btc Balance */
               await Db_Helper.Update_Balance(from_address, coin_data, balance);
               let trnxTypeW: string = "Withdraw";
-              // switch (tx_type) {
-              //   case TrnxTypeEnum.DAPP:
-              //     trnxTypeW = "Smart Contract Execution";
-              //     break;
-              //   case TrnxTypeEnum.APPROVE:
-              //     trnxTypeW = "Approval";
-              //     break;
-              //   case TrnxTypeEnum.SWAP:
-              //     trnxTypeW = "Swap";
-              //     break;
-              //   case TrnxTypeEnum.CROSS_CHAIN:
-              //     trnxTypeW = "Cross-chain Swap";
-              //     break;
-              //   case TrnxTypeEnum.WITHDRAW:
-              //     trnxTypeW = "Withdraw";
-              //     break;
-              //   default:
-              //     break;
-              // }
               const notiMsg = `${trnxTypeW} of ${await Utility_Helper.bigNumberSafeConversion(
                 amount
               )} ${coin_symbol.toUpperCase()} has been confirmed.`;
@@ -162,23 +131,6 @@ class BTCTxStatusUpdateProcess {
             return true;
           } else {
             let trnxTypeW: string = "Withdraw";
-            // switch (tx_type) {
-            //   case TrnxTypeEnum.DAPP:
-            //     trnxTypeW = "Smart Contract Execution";
-            //     break;
-            //   case TrnxTypeEnum.APPROVE:
-            //     trnxTypeW = "Approval";
-            //     break;
-            //   case TrnxTypeEnum.SWAP:
-            //     trnxTypeW = "Swap";
-            //     break;
-            //   case TrnxTypeEnum.CROSS_CHAIN:
-            //     trnxTypeW = "Cross-chain Swap";
-            //     break;
-            //   default:
-            //     break;
-            // }
-
             let notiMsg = `${trnxTypeW} request of ${await Utility_Helper.bigNumberSafeConversion(amount)} ${coin_symbol?.toUpperCase()} has been failed.`;
             let notifData: any = {
               title: trnxTypeW.toUpperCase(),
@@ -196,7 +148,6 @@ class BTCTxStatusUpdateProcess {
               state: "failed"
             };
             Utility_Helper.SendNotification(notifData);
-            // return false;
           }
         } else {
           return false;

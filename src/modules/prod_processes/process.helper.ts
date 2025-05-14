@@ -109,24 +109,7 @@ class BTCProcessHelper {
       console.error('💥 ~ fetchWalletAddress error', error);
     }
   };
-  // public fetchWalletAddress = async () => {
-  //   try {
-  //     try {
-  //       const getaddressQuery = `SELECT ws.user_id,ws.wallet_address as address, ws.wallet_name FROM wallets as wa INNER JOIN coins as co ON co.coin_id=wa.coin_id  WHERE wa.wallet_address != '' AND wa.wallet_address IS NOT null AND co.coin_family=${config.STATIC_COIN_FAMILY.BTC} GROUP BY wa.wallet_address`;
-  //       const addresses: WalletInterface[] = await database.db_read.query(getaddressQuery, {
-  //         type: Sequelize.QueryTypes.SELECT,
-  //       });
-  //       for (let address of addresses) {
-  //         this.setKeyValuePair(config.BTC_WALLET_ADDRESSES, address.wallet_address, JSON.stringify({ address: address.wallet_address, user_id: address.user_id }));
-  //       }
-  //     } catch (error) {
-  //       console.error('fetchWalletAddress >>>', error);
-  //     }
 
-  //   } catch (error) {
-  //     console.error('fetchWalletAddress error', error);
-  //   }
-  // }
   public check_our_wallet_address = async (address: string) => {
     try {
       let wallet_data: any = await this.getKeyValuePair(config.BTC_WALLET_ADDRESSES, address)
