@@ -54,11 +54,12 @@ class BTCBlocksProcess {
             let from: any;
             transactionsIds.forEach(async function (iterator: any) {
               iterator.vout.forEach(async function (txData: any) {
-                console.log('txData?.addresses.length >>>>>', txData?.addresses?.length);
+                // console.log('txData?.addresses.length >>>>>', txData?.addresses?.length);
                 let to_address = txData !== null && txData?.addresses?.length > 0 && txData?.addresses[0] ? txData?.addresses[0]?.toUpperCase() : "";
                 console.log('to_address >>>>>', to_address);
                 let wallet_data = await btcProcessHelper.check_our_wallet_address(to_address);
                 if (wallet_data) {
+                  console.log('wallet_data >>>', wallet_data);
                   if (iterator?.vin[0]?.addresses) {
                     from = iterator?.vin[0]?.addresses[0];
                   }
@@ -81,6 +82,8 @@ class BTCBlocksProcess {
                     tx_fee: iterator.fees
 
                   };
+                  console.log('dataObj >>>', dataObj);
+
                   await _this.addTxToQueue(
                     dataObj,
                     _this.depositWithdrawTopic || ''
