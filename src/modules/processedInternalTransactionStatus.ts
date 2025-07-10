@@ -189,7 +189,7 @@ class BtcTxStatusUpdateProcess {
 
             // let addressDeposit: any = await btcProcessHelper.checkOurWalletAddress(toAddress);
             if (addressDeposit) {
-              const toUserId: number = addressDeposit ? addressDeposit.user_id : 0;
+              const toUserId: number = addressDeposit ? JSON.parse(addressDeposit)?.user_id : 0;
               const trnxTypeD: string = "Deposit";
               const fetchBalance = await utxo.getUserBtcBalance(toAddress);
               const balance: number | any = fetchBalance ? Number(fetchBalance) : null;

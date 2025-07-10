@@ -65,14 +65,6 @@ const dataObj = {
   wallet_address: {
     type: DataTypes.STRING,
     allowNull: true,
-  },
-  created_at: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  updated_at: {
-    type: DataTypes.DATE,
-    allowNull: false,
   }
 };
 

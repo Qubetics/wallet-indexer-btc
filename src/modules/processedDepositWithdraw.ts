@@ -205,10 +205,11 @@ class confirmWithdrawDepositProcess {
 
       const addresses = [fromAddress, toAddress].filter(Boolean);
       const results = await btcProcessHelper.getMultipleKeyValuePairs(`${config.BTC_WALLET_ADDRESSES}`, addresses);
+      console.log('results >>>', results);
       // const Addressdeposit: any = await btcProcessHelper.checkOurWalletAddress(to_address);
       const [addressWithdraw, addressDeposit]: any = results as string[];
       const userId: number = addressWithdraw ? JSON.parse(addressWithdraw)?.user_id : 0;
-      const toUserId: number = addressDeposit ? addressDeposit.user_id : 0;
+      const toUserId: number = addressDeposit ? JSON.parse(addressDeposit)?.user_id : 0;
 
       const trx_data: any = {
         user_id: userId,
@@ -253,7 +254,7 @@ class confirmWithdrawDepositProcess {
           amount: amount,
           to_user_id: userId,
           coin_symbol: data.coin?.coin_symbol,
-          wallet_address: toAddress,
+          wallet_address: fromAddress,
           tx_id: newTrnx.id,
           coin_id: data.coin.coin_id,
           coin_family: data.coin.coin_family,
