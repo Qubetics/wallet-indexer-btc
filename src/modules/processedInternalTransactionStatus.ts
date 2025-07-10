@@ -177,7 +177,7 @@ class BtcTxStatusUpdateProcess {
                 amount: amount,
                 to_user_id: userId,
                 coin_symbol: coinSymbol,
-                wallet_address: toAddress,
+                wallet_address: fromAddress,
                 tx_id: txRowId,
                 coin_id: coinId,
                 coin_family: coinFamily,
