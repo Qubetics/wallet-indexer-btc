@@ -8,7 +8,7 @@ class KafkaHelper {
     private producer: any;
 
     constructor() {
-        this.connect();
+        // this.connect();
     }
 
     async connect() {
@@ -38,4 +38,4 @@ class KafkaHelper {
 
 }
 
-export let Kafka_Helper = new KafkaHelper();
+export let kafkaHelper = new KafkaHelper();

@@ -1,10 +1,10 @@
-import { config } from '../../config/config';
-import { LogsConstants } from '../../constants/logs.constants';
+import { config } from '../config/config';
+import { LogsConstants } from '../constants/logs.constants';
 import utxo from './utxo';
 import btcProcessHelper from './process.helper';
-import { Kafka_Helper } from '../../helpers/index';
-import { TrnxTypeEnum } from '../../enum/index';
-class BTCBlocksProcess {
+import { kafkaHelper } from '../helpers/index';
+import { TrnxTypeEnum } from '../enum/index';
+class BtcBlockReadProcess {
   public minBlockConfirmation: number;
   public depositWithdrawTopic = config.KAFKA_TRANSACTIONS.DEPOSIT_WITHDRAW_TOPIC;
 
@@ -48,28 +48,28 @@ class BTCBlocksProcess {
       });
       const transactionsIds = blockHashInternal.txs;
       try {
-        if (transactionsIds) {
-          if (transactionsIds?.length > 0) {
-            let _this = this;
-            let from: any;
-            transactionsIds.forEach(async function (iterator: any) {
-              iterator.vout.forEach(async function (txData: any) {
-                // console.log('txData?.addresses.length >>>>>', txData?.addresses?.length);
-                let to_address = txData !== null && txData?.addresses?.length > 0 && txData?.addresses[0] ? txData?.addresses[0]?.toUpperCase() : "";
-                console.log('to_address >>>>>', to_address);
-                let wallet_data = await btcProcessHelper.check_our_wallet_address(to_address);
-                if (wallet_data) {
-                  console.log('wallet_data >>>', wallet_data);
-                  if (iterator?.vin[0]?.addresses) {
-                    from = iterator?.vin[0]?.addresses[0];
-                  }
-                  let amount: any = (parseFloat(txData.value) / 100000000).toString();
-                  let dataObj: {
+        if (transactionsIds && transactionsIds.length > 0) {
+          const txPromises = transactionsIds.map(async (iterator: any) => {
+            let from: null | string = '';
+            if (iterator.vout && iterator.vout.length > 0) {
+              const voutPromises = iterator.vout.map(async (txData: any) => {
+                const to_address = txData && txData.addresses && txData.addresses.length > 0 && txData.addresses[0] ? txData.addresses[0].toUpperCase() : "";
+                // console.log('to_address >>>>>', to_address);
+                if (iterator?.vin && iterator.vin[0]?.addresses) {
+                  from = iterator.vin[0].addresses[0];
+                }
+                // const wallet_data = await btcProcessHelper.checkOurWalletAddress(to_address);
+
+                const addresses = [from, to_address].filter(Boolean);
+                // console.log('addresses >>>', addresses);
+                if (addresses.length > 0) {
+                  const amount: any = (parseFloat(txData.value) / 100000000).toString();
+                  const dataObj: {
                     tx_id: string;
                     from_address: string;
                     to_address: string;
                     amount: any;
-                    tx_type: string;
+                    tx_type: string | null;
                     block_id: number;
                     tx_fee: number
                   } = {
@@ -77,22 +77,49 @@ class BTCBlocksProcess {
                     from_address: from ? from : '',
                     to_address: to_address,
                     amount: amount,
-                    tx_type: TrnxTypeEnum.DEPOSIT,
+                    tx_type: null,
                     block_id: blockId,
                     tx_fee: iterator.fees
-
                   };
-                  console.log('dataObj >>>', dataObj);
 
-                  await _this.addTxToQueue(
-                    dataObj,
-                    _this.depositWithdrawTopic || ''
-                  );
+                  const results: any = await btcProcessHelper.getMultipleKeyValuePairs(`${config.BTC_WALLET_ADDRESSES}`, addresses);
+                  // console.log('results >>>', results?.length);
+                  if (results) {
+                    if (from !== '' && results?.length > 1) {
+                      const [withdrawTx, depositTx] = results as string[];
+                      // console.log('withdrawTx results >>>', withdrawTx);
+                      // console.log('Deposit results >>>', depositTx);
+                      if (depositTx) {
+                        // console.log('Deposit results >>>', depositTx);
+                        dataObj.tx_type = TrnxTypeEnum.DEPOSIT;
+                      } else if (from !== '' && withdrawTx) {
+                        // console.log('Withdraw results >>>', withdrawTx);
+                        dataObj.tx_type = TrnxTypeEnum.WITHDRAW;
+                      }
+                    } else {
+                      const [depositTx] = results as string[];
+                      // console.log('Deposit results >>>', depositTx);
+                      if (depositTx) {
+                        // console.log('Deposit results >>>', depositTx);
+                        dataObj.tx_type = TrnxTypeEnum.DEPOSIT;
+                      }
+                    }
+                  }
+
+                  if (dataObj.tx_type !== null) {
+                    console.log('dataObj >>>', dataObj);
+                    await this.addTxToQueue(
+                      dataObj,
+                      this.depositWithdrawTopic || ''
+                    );
+                  }
                 }
 
-              })
-            })
-          }
+              });
+              await Promise.all(voutPromises);
+            }
+          });
+          await Promise.all(txPromises);
         }
       } catch (error: any) {
         console.error('getTxFromBlock >>>>>', error);
@@ -102,7 +129,7 @@ class BTCBlocksProcess {
 
   public addTxToQueue = async (data: any, queueName: string) => {
     try {
-      await Kafka_Helper.produceMessage(queueName, data);
+      await kafkaHelper.produceMessage(queueName, data);
     } catch (error: any) {
       console.error('addTxToQueue error', (error as Error).message);
     }
@@ -129,5 +156,5 @@ class BTCBlocksProcess {
   }
 }
 
-const btcBlocksProcess = new BTCBlocksProcess();
-export default btcBlocksProcess;
+const btcBlockReadProcess = new BtcBlockReadProcess();
+export default btcBlockReadProcess;

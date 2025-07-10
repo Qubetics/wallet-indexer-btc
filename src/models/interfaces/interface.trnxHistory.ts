@@ -22,6 +22,6 @@ export interface ITrnxHistoryInterface {
     gas_limit: number;
     gas_price: number;
     gas_reverted: number;
-    fiat_price: number | null,
+    // fiat_price: number | null,
     fiat_type: string | null,
 }

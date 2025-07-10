@@ -5,15 +5,16 @@ import {
 } from "../models/tables";
 import { CoinInterface } from "../models/interfaces";
 import { config } from "../config/config";
-import { Kafka_Helper } from "./kafka.helper";
+import { kafkaHelper } from "./kafka.helper";
 import { Op } from "sequelize";
 class DbHelper {
     public btc_pending_balance_update_topic = config.KAFKA_BALANCE.BTC_PENDING_BALANCE_UPDATE_TOPIC;
 
-    Update_Balance = async (
+    // Update_Balance = async (
+    updateBalance = async (
         wallet_address: string,
         coin: CoinInterface,
-        balance: number | any
+        balance: number
     ) => {
         try {
             if (!wallet_address) {
@@ -21,8 +22,7 @@ class DbHelper {
                 return false;
             }
 
-
-            if (balance) {
+            if (balance !== undefined && balance !== null) {
                 await WalletModel.update({
                     balance: balance,
                     status: 1
@@ -32,23 +32,23 @@ class DbHelper {
                         coin_id: coin.coin_id
                     }
                 });
-                return true
-            }
-            else {
-                let data = {
+                return true;
+            } else {
+                const data = {
                     coin_data: coin,
                     wallet_address: wallet_address,
                     queue_count: 0,
-                }
-                Kafka_Helper.produceMessage(this.btc_pending_balance_update_topic, data)
+                };
+                await kafkaHelper.produceMessage(this.btc_pending_balance_update_topic, data);
+                return true;
             }
         } catch (error: any) {
-            console.error(`WalletHelper Update_Balance error >>>`, error);
-            return {};
+            console.error(`WalletHelper updateBalance error >>>`, error);
+            return false;
         }
     }
     /** get user device token using user id */
-    GetDeviceTokens = async (user_id: number, address: string, coin_family: number) => {
+    getDeviceTokens = async (user_id: number, address: string, coin_family: number) => {
         try {
             return await DeviceTokenModel.findAll({
                 attributes: ["device_token"],
@@ -71,5 +71,5 @@ class DbHelper {
         }
     }
 }
-export let Db_Helper = new DbHelper();
+export let dbHelper = new DbHelper();
 

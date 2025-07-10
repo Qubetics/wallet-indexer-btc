@@ -1,16 +1,14 @@
 import schedule from 'node-schedule';
-import btcBlocksProdProcess from './modules/prod_processes/blocks.process';
-import confirmDepositProdProcess from './modules/prod_processes/confirm.deposit.process';
-import btcTxStatusUpdateProdProcess from './modules/prod_processes/confirm.withdraw.process';
-import btcPendingWithdrawalProdProcess from './modules/prod_processes/withdraw.process';
-import { config } from './config/config';
-import pendingBalanceUpdateBtc from './modules/prod_processes/updating_pending_address_balance.process';
-
-
-
+import btcBlockReadProcess from './modules/processedBlocksRead';
+import confirmDepositWithdrawProcess from './modules/processedDepositWithdraw';
+import btcTxStatusUpdateProdProcess from './modules/processedInternalTransactionStatus';
+import btcPendingWithdrawalProdProcess from './modules/processedInternalTransactions';
+import pendingBalanceUpdateProcess from './modules/processedBalanceUpdate';
+import { kafkaHelper } from './helpers';
 
 class BTCStartProcess {
   constructor() {
+    this.connectKafka();
     this.readBlocksProcess();
     this.confirmDepositProcess();
     this.pendingWithdrawalProcess();
@@ -21,6 +19,9 @@ class BTCStartProcess {
 
   }
 
+  public async connectKafka() {
+    await kafkaHelper.connect();
+  }
 
   // public testing_node() {
   //   schedule.scheduleJob("*/2 * * * * *", async function () {
@@ -31,7 +32,7 @@ class BTCStartProcess {
   public readBlocksProcess() {
     schedule.scheduleJob('*/15 * * * * *', async function () {
       try {
-        await btcBlocksProdProcess.readBlocks();
+        await btcBlockReadProcess.readBlocks();
       } catch (error) {
         console.error('readBlocksProcess >>', error);
       }
@@ -39,7 +40,7 @@ class BTCStartProcess {
   }
   public readSpecificBlock() {
     schedule.scheduleJob("*/5 * * * *", async function () {
-      await btcBlocksProdProcess.readSpecificBlock();
+      await btcBlockReadProcess.readSpecificBlock();
     })
   }
 
@@ -56,7 +57,7 @@ class BTCStartProcess {
   public async confirmDepositProcess() {
     try {
       setTimeout(async () => {
-        await confirmDepositProdProcess.startDepositQueue();
+        await confirmDepositWithdrawProcess.startDepositQueue();
       }, 10000);
     } catch (error) {
       console.error('confirmDepositProcess >>', error);
@@ -73,11 +74,10 @@ class BTCStartProcess {
     }
   }
 
-
   public async btcUpdatePendingTxBalance() {
     try {
       setTimeout(async () => {
-        await pendingBalanceUpdateBtc.update_wallet_balance();
+        await pendingBalanceUpdateProcess.updateWalletBalance();
       }, 10000);
     } catch (error) {
       console.error('btcUpdatePendingTxBalance >>', error);

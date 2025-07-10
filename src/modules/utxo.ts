@@ -1,4 +1,4 @@
-import { config } from '../../config';
+import { config } from '../config';
 import axios, { AxiosInstance } from "axios";
 class UTXO {
   public config: any;

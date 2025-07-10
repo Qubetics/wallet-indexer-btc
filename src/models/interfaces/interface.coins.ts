@@ -12,7 +12,7 @@ export interface CoinInterface {
     decimals: number | 0;
     cmc_id?: number | 0;
     is_on_cmc?: number | 1;
-    token_abi?: string | null;
+    // token_abi?: string | null;
     token_address?: string | null;
     for_swap?: number;
     added_by?: string;

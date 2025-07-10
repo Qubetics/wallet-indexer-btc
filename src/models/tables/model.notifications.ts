@@ -7,7 +7,7 @@ interface NotificationInstance
   extends Model<NotificationInterface, NotificationCreationModel>,
   NotificationInterface { }
 
-let dataObj = {
+const dataObj = {
   notification_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -58,18 +58,30 @@ let dataObj = {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  state: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
+  // state: {
+  //   type: DataTypes.STRING,
+  //   allowNull: true,
+  // },
   wallet_address: {
     type: DataTypes.STRING,
     allowNull: true,
+  },
+  created_at: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
+  updated_at: {
+    type: DataTypes.DATE,
+    allowNull: false,
   }
 };
 
-let dataObjIndex = {
+const dataObjIndex = {
   indexes: [
+    {
+      unique: false,
+      fields: ["from_user_id"],
+    },
     {
       unique: false,
       fields: ["to_user_id"],
@@ -86,6 +98,26 @@ let dataObjIndex = {
       unique: false,
       fields: ["tx_type"],
     },
+    {
+      unique: false,
+      fields: ["coin_symbol"],
+    },
+    {
+      unique: false,
+      fields: ["coin_id"],
+    },
+    {
+      unique: false,
+      fields: ["wallet_address"],
+    },
+    {
+      unique: false,
+      fields: ["coin_family"],
+    },
+    {
+      unique: false,
+      fields: ["view_status"],
+    }
   ],
 };
 

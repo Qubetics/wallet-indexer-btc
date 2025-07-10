@@ -7,4 +7,6 @@ export interface DeviceTokenInterface {
     address: string;
     coin_family: number;
     push?: number;
+    language: string | 'en';
+    fiat_currency: string | 'usd'
 }

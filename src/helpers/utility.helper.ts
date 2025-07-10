@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import { Db_Helper } from ".";
+import { dbHelper } from ".";
 import { NotificationModel } from "../models/tables";
 import firebaseAdmin from 'firebase-admin';
 import { fcmServiceAccount } from "../constants/firebase.admin.key";
@@ -23,11 +23,12 @@ class UtilityHelper {
     const value = new BigNumber(amount);
     return value.toFixed();
   };
- 
-  public async SendNotification(data: any) {
+
+  public async sendNotification(data: any) {
     try {
-      let toUserId: number = data.to_user_id ? data.to_user_id : 0;
-      let deviceTokens: any = await Db_Helper.GetDeviceTokens(toUserId, data.wallet_address, data.coin_family);
+      const toUserId: number = data.to_user_id ? data.to_user_id : 0;
+      const deviceTokens: any = await dbHelper.getDeviceTokens(toUserId, data.wallet_address, data.coin_family);
+      // console.log('deviceTokens >>>', deviceTokens);
       let finalDeviceTokens: any = [];
 
       for await (let deviceToken of deviceTokens) {
@@ -35,9 +36,9 @@ class UtilityHelper {
       }
 
       if (finalDeviceTokens?.length > 0) {
-        let announcement_title: string =
+        const announcement_title: string =
           data.announcement_title == undefined ? "" : data.announcement_title;
-        let announcement_message: string =
+        const announcement_message: string =
           data.announcement_message == undefined
             ? ""
             : data.announcement_message;
@@ -107,4 +108,4 @@ class UtilityHelper {
     }
   }
 }
-export let Utility_Helper = new UtilityHelper();
+export let utilityHelper = new UtilityHelper();

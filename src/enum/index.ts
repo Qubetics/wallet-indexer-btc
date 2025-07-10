@@ -1,5 +1,5 @@
 export * from "./coin.enum";
 export * from "./common.enum";
-export * from "./trnx_history.enum";
-export * from "./trnx_type.enum";
+export * from "./trnxHistory.enum";
+export * from "./trnxType.enum";
 

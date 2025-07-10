@@ -4,7 +4,7 @@ import db from "../../config/db";
 interface CoinCreationModel extends Optional<CoinInterface, "coin_id"> { }
 interface CoinInstance extends Model<CoinInterface, CoinCreationModel>, CoinInterface { }
 
-let dataObj = {
+const dataObj = {
     coin_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -51,10 +51,10 @@ let dataObj = {
         type: DataTypes.INTEGER,
         allowNull: true,
     },
-    token_abi: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
+    // token_abi: {
+    //     type: DataTypes.STRING,
+    //     allowNull: true,
+    // },
     token_address: {
         type: DataTypes.STRING,
         allowNull: true,
@@ -67,6 +67,26 @@ let dataObj = {
         type: DataTypes.ENUM('admin', 'user', 'swap'),
         allowNull: true,
     },
+    graph_source: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    graph_pair: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    pair_address: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    is_on_trading_view: {
+        type: DataTypes.TINYINT,
+        allowNull: true,
+    },
+    is_on_moralis_inactive: {
+        type: DataTypes.TINYINT,
+        allowNull: true,
+    },
     created_at: {
         type: DataTypes.DATE,
         allowNull: true,
@@ -76,11 +96,11 @@ let dataObj = {
         allowNull: true,
     },
 };
-let dataObjIndex = {
+const dataObjIndex = {
     indexes: [
         {
-            unique: true,
-            fields: ["coin_id"],
+            unique: false,
+            fields: ["coin_name"],
         },
         {
             unique: false,
@@ -104,8 +124,20 @@ let dataObjIndex = {
         },
         {
             unique: false,
+            fields: ["cmc_id"],
+        },
+        {
+            unique: false,
+            fields: ["is_on_cmc"],
+        },
+        {
+            unique: false,
             fields: ["token_address"],
         },
+        {
+            unique: false,
+            fields: ["added_by"],
+        }
     ],
 };
 

@@ -1,9 +1,9 @@
-import { config } from "../../config";
-import { Kafka_Helper } from "../../helpers/index";
-import { TrnxHistoryModel } from "../../models/tables";
+import { config } from "../config";
+import { kafkaHelper } from "../helpers/index";
+import { TrnxHistoryModel } from "../models/tables";
 import { Op } from "sequelize";
 
-class BTCPendingWithdrawalProcess {
+class BtcPendingWithdrawalProcess {
   public btc_pending_withdrawal_tx_topic = config.config.KAFKA_TRANSACTIONS.BTC_PENDING_WITHDRAWAL_TX_TOPIC;
 
   public getTransactionFromDB = async () => {
@@ -33,12 +33,12 @@ class BTCPendingWithdrawalProcess {
   public addTxToQueue = async (txId: string) => {
     try {
 
-      await Kafka_Helper.produceMessage(this.btc_pending_withdrawal_tx_topic, { txId: txId });
+      await kafkaHelper.produceMessage(this.btc_pending_withdrawal_tx_topic, { txId: txId });
     } catch (error) {
       console.error('addTxToQueue error', error);
     }
   };
 }
 
-const btcPendingWithdrawalProcess = new BTCPendingWithdrawalProcess();
+const btcPendingWithdrawalProcess = new BtcPendingWithdrawalProcess();
 export default btcPendingWithdrawalProcess;
