@@ -4,6 +4,7 @@ import { NotificationModel } from "../models/tables";
 import firebaseAdmin from 'firebase-admin';
 import { fcmServiceAccount } from "../constants/firebase.admin.key";
 import { Op } from "sequelize";
+import { NotificationInterface } from "../models/interfaces";
 
 
 class UtilityHelper {
@@ -84,7 +85,7 @@ class UtilityHelper {
         },
       });
       if (checkOldNotif == 0) {
-        let notificationModel: any = {
+        const notificationData: NotificationInterface = {
           message: data.message,
           from_user_id: data.from_user_id ? data.from_user_id : 0,
           amount: data.amount,
@@ -97,9 +98,9 @@ class UtilityHelper {
           wallet_address: data.wallet_address,
           tx_type: data.tx_type,
           view_status: "0",
-          state: "0",
+          // state: "0",
         };
-        await NotificationModel.create(notificationModel);
+        await NotificationModel.create(notificationData);
       }
       return true;
     } catch (error) {
