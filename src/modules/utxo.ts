@@ -65,5 +65,5 @@ class UTXO {
 
 }
 
-var utxo = new UTXO();
+const utxo = new UTXO();
 export default utxo;
