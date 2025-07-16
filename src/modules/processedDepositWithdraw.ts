@@ -203,13 +203,50 @@ class confirmWithdrawDepositProcess {
         }
       }
 
-      const addresses = [fromAddress, toAddress].filter(Boolean);
-      const results = await btcProcessHelper.getMultipleKeyValuePairs(`${config.BTC_WALLET_ADDRESSES}`, addresses);
+      let userId = 0;
+      let toUserId = 0;
+
+      const addresses: string[] = fromAddress !== ''
+        ? [fromAddress, toAddress].filter(Boolean)
+        : [toAddress].filter(Boolean);
+
+      const results = await btcProcessHelper.getMultipleKeyValuePairs(
+        config.BTC_WALLET_ADDRESSES,
+        addresses
+      ) as (string | null)[];
+
       console.log('results >>>', results);
-      // const Addressdeposit: any = await btcProcessHelper.checkOurWalletAddress(to_address);
-      const [addressWithdraw, addressDeposit]: any = results as string[];
-      const userId: number = addressWithdraw ? JSON.parse(addressWithdraw)?.user_id : 0;
-      const toUserId: number = addressDeposit ? JSON.parse(addressDeposit)?.user_id : 0;
+
+      // Helper for safe JSON parse
+      const safeParse = (data: string | null): any => {
+        try {
+          return data ? JSON.parse(data) : null;
+        } catch {
+          return null;
+        }
+      };
+
+      let withdrawAddressExist: string | null = null;
+      let depositAddressExist: string | null = null;
+
+      if (fromAddress !== '') {
+        const [addressWithdraw, addressDeposit] = results;
+        withdrawAddressExist = addressWithdraw;
+        depositAddressExist = addressDeposit;
+
+        const parsedWithdraw = safeParse(addressWithdraw);
+        const parsedDeposit = safeParse(addressDeposit);
+
+        userId = parsedWithdraw?.user_id ?? 0;
+        toUserId = parsedDeposit?.user_id ?? 0;
+      } else {
+        const [addressDeposit] = results;
+        depositAddressExist = addressDeposit;
+
+        const parsedDeposit = safeParse(addressDeposit);
+        toUserId = parsedDeposit?.user_id ?? 0;
+      }
+
 
       const trx_data: any = {
         user_id: userId,
@@ -231,7 +268,7 @@ class confirmWithdrawDepositProcess {
       const newTrnx: any = await TrnxHistoryModel.create(trx_data)
 
       // let AddressWithdraw: any = await btcProcessHelper.checkOurWalletAddress(fromAddress);
-      if (addressWithdraw) {
+      if (withdrawAddressExist) {
         const fetchBalance = await utxo.getUserBtcBalance(fromAddress);
         const balance: number | any = fetchBalance ? Number(fetchBalance) : null;
         console.log('from address balance >>>>>', balance);
@@ -264,7 +301,7 @@ class confirmWithdrawDepositProcess {
         utilityHelper.sendNotification(notifData);
       }
 
-      if (addressDeposit) {
+      if (depositAddressExist) {
         let trnxTypeD: string = "Deposit";
         let fetchBalance = await utxo.getUserBtcBalance(toAddress);
         let balance: number | any = fetchBalance ? Number(fetchBalance) : null;
