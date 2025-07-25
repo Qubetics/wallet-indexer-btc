@@ -9,6 +9,7 @@ export const config = {
   DB_PORT: zookeeperConfig.config.DB_PORT,
   BTC_RPC_URL: zookeeperConfig.config.BTC_RPC_URL,
   BTC_API_KEY: zookeeperConfig.config.BTC_API_KEY,
+  BTC_TESTNET_RPC_URL: zookeeperConfig.config.BTC_TESTNET_RPC_URL,
   REDIS_CONN: zookeeperConfig.config.REDIS_CONN,
   KAFKA_BROKER: zookeeperConfig.config.KAFKA_BROKER,
   KAFKA_CLIENT_ID: zookeeperConfig.config.KAFKA_CLIENT_ID,

@@ -109,21 +109,39 @@ class BtcTxStatusUpdateProcess {
 
   public getTx = async (data: { txId: string }) => {
     try {
-      await utxo.getTransactionById(data.txId).then(async (rawData) => {
-        if (
-          rawData.confirmations != undefined &&
-          rawData.confirmations >=
-          Number(config.MIN_BTC_TRANSACTION_CONFORMATIONS)
-        ) {
-          const txUpdate = {
-            status: 'success',
-            txid: data.txId,
-          };
-          await this.sendTxUpdate(txUpdate);
-        } else {
-          return null;
-        }
-      });
+      if( config.SERVER === "stage" ){
+        await utxo.getRpcTransactionDetails(data.txId).then(async (rawData) => {
+          if (
+            rawData.confirmations != undefined &&
+            rawData.confirmations >=
+            Number(config.MIN_BTC_TRANSACTION_CONFORMATIONS)
+          ) {
+            const txUpdate = {
+              status: 'success',
+              txid: data.txId,
+            };
+            await this.sendTxUpdate(txUpdate);
+          } else {
+            return null;
+          }
+        });
+      }else{
+        await utxo.getTransactionById(data.txId).then(async (rawData) => {
+          if (
+            rawData.confirmations != undefined &&
+            rawData.confirmations >=
+            Number(config.MIN_BTC_TRANSACTION_CONFORMATIONS)
+          ) {
+            const txUpdate = {
+              status: 'success',
+              txid: data.txId,
+            };
+            await this.sendTxUpdate(txUpdate);
+          } else {
+            return null;
+          }
+        });
+      }
     } catch (error: any) {
       console.error('getTx error', error);
     }

@@ -2,12 +2,20 @@ import { config } from '../config';
 import axios, { AxiosInstance } from "axios";
 class UTXO {
   public config: any;
+  private rpcConfig: any;
   constructor() {
     this.config = {
       method: 'get',
       headers: {
         'apikey': `${config.config.BTC_API_KEY}`,
         'Content-Type': 'application/json',
+      }
+    };
+    this.rpcConfig = {
+      method: 'post',
+      url: `${config.config.BTC_TESTNET_RPC_URL}`,
+      headers: {
+          'Content-Type': 'application/json',
       }
     };
   }
@@ -63,6 +71,41 @@ class UTXO {
     }
   }
 
+  private async makeRpcCall(method: string, params: any[] = []) {
+    try {
+        const requestData = {
+            jsonrpc: '2.0',
+            method: method,
+            params: params,
+            id: 1
+        };
+
+        const response = await axios({
+            ...this.rpcConfig,
+            data: requestData
+        });
+
+        if (response.data.error) {
+            console.log("🚀 ~ utxo ~ makeRpcCall ~ err  :", { method , error: response.data.error })
+            throw new Error(`RPC Error: ${response.data.error.message}`);
+        }
+        console.log("🚀 ~ utxo ~ makeRpcCall ~ response:", { method , result: response.data.result })
+
+        return response.data.result;
+    } catch (err: any) {
+        console.error(`Error in RPC call ${method}:`, err);
+        throw err;
+    }
+  }
+  public async getRpcTransactionDetails(txid: string) {
+    try {
+        const transaction = await this.makeRpcCall('getrawtransaction', [txid, true]);
+        return transaction;
+    } catch (err: any) {
+        console.error("Error in getTransactionDetails of BTC", err);
+        return null;
+    }
+  }
 }
 
 const utxo = new UTXO();
