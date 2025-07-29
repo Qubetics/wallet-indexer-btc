@@ -165,11 +165,11 @@ class BtcTxStatusUpdateProcess {
               /** update withdraw user eth balance */
               /** Update User Btc Balance */
               await dbHelper.updateBalance(fromAddress, coin_data, balance);
-              let trnxTypeW: string = "Withdraw";
+              const trnxTypeW: string = "Withdraw";
               const notiMsg = `${trnxTypeW} of ${await utilityHelper.bigNumberSafeConversion(
                 amount
               )} ${coinSymbol.toUpperCase()} has been confirmed.`;
-              let notifData: any = {
+              const notifData: any = {
                 title: trnxTypeW.toUpperCase(),
                 notification_type: trnxTypeW,
                 message: notiMsg,
@@ -221,7 +221,7 @@ class BtcTxStatusUpdateProcess {
             return true;
           } else {
             let trnxTypeW: string = "Withdraw";
-            const notiMsg = `${trnxTypeW} request of ${await utilityHelper.bigNumberSafeConversion(amount)} ${coinSymbol?.toUpperCase()} has been failed.`;
+            const notiMsg = `${trnxTypeW} of ${await utilityHelper.bigNumberSafeConversion(amount)} ${coinSymbol?.toUpperCase()} has been failed.`;
             const notifData: any = {
               title: trnxTypeW.toUpperCase(),
               message: notiMsg,

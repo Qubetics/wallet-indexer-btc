@@ -279,11 +279,11 @@ class confirmWithdrawDepositProcess {
           data.coin, /// coin
           balance
         );
-        let trnxTypeW: string = "Withdraw";
+        const trnxTypeW: string = "Withdraw";
         const notiMsg = `${trnxTypeW} of ${await utilityHelper.bigNumberSafeConversion(
           amount
         )} ${data.coin?.coin_symbol.toUpperCase()} has been confirmed.`;
-        let notifData: any = {
+        const notifData: any = {
           title: trnxTypeW.toUpperCase(),
           notification_type: trnxTypeW,
           message: notiMsg,
@@ -302,9 +302,9 @@ class confirmWithdrawDepositProcess {
       }
 
       if (depositAddressExist) {
-        let trnxTypeD: string = "Deposit";
-        let fetchBalance = await utxo.getUserBtcBalance(toAddress);
-        let balance: number | any = fetchBalance ? Number(fetchBalance) : null;
+        const trnxTypeD: string = "Deposit";
+        const fetchBalance = await utxo.getUserBtcBalance(toAddress);
+        const balance: number | any = fetchBalance ? Number(fetchBalance) : null;
         await dbHelper.updateBalance(
           toAddress, /// wallet_address,
           data.coin, /// coin
@@ -314,7 +314,7 @@ class confirmWithdrawDepositProcess {
           amount
         )} ${data.coin?.coin_symbol?.toUpperCase()} has been confirmed.`;
 
-        let notifData: any = {
+        const notifData: any = {
           title: NotificationTypeEnum.DEPOSIT?.toUpperCase(),
           message: notiMsg,
           from_user_id: userId,
