@@ -168,12 +168,12 @@ class confirmWithdrawDepositProcess {
       const fiat_currency = "USD";
       if (data.txType == TrnxTypeEnum.DEPOSIT) {
         console.log("DEPOSIT")
-        let checkOldTrnx: any = await TrnxHistoryModel.findOne({
+        const checkOldTrnx: any = await TrnxHistoryModel.findOne({
           where: {
             tx_id: {
               [Op.like]: txHash,
             },
-            to_adrs: toAddress,
+            to_adrs: { [Op.like]: toAddress },
             req_type: { [Op.notIn]: [TxReqTypesEnum.ALCHEMY, TxReqTypesEnum.TRANSAK] }
           },
           raw: true,
@@ -192,7 +192,7 @@ class confirmWithdrawDepositProcess {
             tx_id: {
               [Op.like]: txHash,
             },
-            from_adrs: fromAddress,
+            from_adrs: { [Op.like]: fromAddress },
             req_type: { [Op.notIn]: [TxReqTypesEnum.ALCHEMY, TxReqTypesEnum.TRANSAK] }
           },
           raw: true,

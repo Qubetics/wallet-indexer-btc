@@ -200,7 +200,7 @@ class BtcTxStatusUpdateProcess {
                 amount
               )} ${coinSymbol.toUpperCase()} has been confirmed.`;
 
-              let notifData: any = {
+              const notifData: any = {
                 title: trnxTypeD.toUpperCase(),
                 message: notiMsg,
                 amount: amount,
@@ -221,8 +221,8 @@ class BtcTxStatusUpdateProcess {
             return true;
           } else {
             let trnxTypeW: string = "Withdraw";
-            let notiMsg = `${trnxTypeW} request of ${await utilityHelper.bigNumberSafeConversion(amount)} ${coinSymbol?.toUpperCase()} has been failed.`;
-            let notifData: any = {
+            const notiMsg = `${trnxTypeW} request of ${await utilityHelper.bigNumberSafeConversion(amount)} ${coinSymbol?.toUpperCase()} has been failed.`;
+            const notifData: any = {
               title: trnxTypeW.toUpperCase(),
               message: notiMsg,
               amount: amount,
