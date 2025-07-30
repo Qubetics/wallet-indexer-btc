@@ -3,7 +3,7 @@ import utxo from './utxo';
 import { dbHelper, kafkaHelper, utilityHelper } from '../helpers';
 import { TrnxHistoryModel } from '../models/tables';
 import { Op } from 'sequelize';
-import { BlockChainStatusEnum } from '../enum/index';
+import { BlockChainStatusEnum, TrnxTypeEnum } from '../enum/index';
 import btcProcessHelper from './process.helper';
 
 class BtcTxStatusUpdateProcess {
@@ -165,7 +165,18 @@ class BtcTxStatusUpdateProcess {
               /** update withdraw user eth balance */
               /** Update User Btc Balance */
               await dbHelper.updateBalance(fromAddress, coin_data, balance);
-              const trnxTypeW: string = "Withdraw";
+
+              let trnxTypeW: string = "Withdraw";
+              switch (txType) {
+                case TrnxTypeEnum.SWAP:
+                  trnxTypeW = "Swap";
+                  break;
+                case TrnxTypeEnum.CROSS_CHAIN:
+                  trnxTypeW = "Cross Chain Swap";
+                  break;
+                default:
+                  break;
+              }
               const notiMsg = `${trnxTypeW} of ${await utilityHelper.bigNumberSafeConversion(
                 amount
               )} ${coinSymbol.toUpperCase()} has been confirmed.`;

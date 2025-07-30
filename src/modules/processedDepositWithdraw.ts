@@ -279,7 +279,17 @@ class confirmWithdrawDepositProcess {
           data.coin, /// coin
           balance
         );
-        const trnxTypeW: string = "Withdraw";
+        let trnxTypeW: string = "Withdraw";
+        switch (txType) {
+          case TrnxTypeEnum.SWAP:
+            trnxTypeW = "Swap";
+            break;
+          case TrnxTypeEnum.CROSS_CHAIN:
+            trnxTypeW = "Cross Chain Swap";
+            break;
+          default:
+            break;
+        }
         const notiMsg = `${trnxTypeW} of ${await utilityHelper.bigNumberSafeConversion(
           amount
         )} ${data.coin?.coin_symbol.toUpperCase()} has been confirmed.`;
@@ -295,7 +305,7 @@ class confirmWithdrawDepositProcess {
           tx_id: newTrnx.id,
           coin_id: data.coin.coin_id,
           coin_family: data.coin.coin_family,
-          tx_type: trnxTypeW,
+          tx_type: txType,
           // state: "confirmed"
         };
         utilityHelper.sendNotification(notifData);
