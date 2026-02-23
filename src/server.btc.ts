@@ -9,12 +9,12 @@ import { kafkaHelper } from './helpers';
 class BTCStartProcess {
   constructor() {
     this.connectKafka();
-    // this.readBlocksProcess();
-    // this.confirmDepositProcess();
+    this.readBlocksProcess();
+    this.confirmDepositProcess();
     this.pendingWithdrawalProcess();
     this.btcTxStatusUpdateProcess();
-    // this.readSpecificBlock();
-    // this.btcUpdatePendingTxBalance();
+    this.readSpecificBlock();
+    this.btcUpdatePendingTxBalance();
     // this.testing_node()
 
   }

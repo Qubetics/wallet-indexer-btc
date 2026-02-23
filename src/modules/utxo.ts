@@ -15,6 +15,7 @@ class UTXO {
       method: 'post',
       url: `${config.config.BTC_TESTNET_RPC_URL}`,
       headers: {
+          'apikey': `${config.config.BTC_API_KEY}`,
           'Content-Type': 'application/json',
       }
     };
