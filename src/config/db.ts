@@ -47,8 +47,6 @@ class Database implements DBInterface {
       }
     });
   }
-  public async syncTables() {
-  }
 }
 const database = new Database();
 export default {
