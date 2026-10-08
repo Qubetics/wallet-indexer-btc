@@ -30,6 +30,7 @@ export const config = {
   LAST_BLOCK_NUMBER_BTC: `${name}_${zookeeperConfig.config.SERVER}_${zookeeperConfig.config.LAST_BLOCK_NUMBER_BTC}`,
   TOKEN_TYPE_BTC: `${name}_${zookeeperConfig.config.SERVER}_${zookeeperConfig.config.TOKEN_TYPE_BTC}`,
   STATIC_COIN_FAMILY: zookeeperConfig.config.STATIC_COIN_FAMILY,
+  FIREBASE_SERVICE_ACCOUNT: zookeeperConfig.config.FIREBASE_SERVICE_ACCOUNT,
   UPDATE_BTC_BLOCK_STATUS: zookeeperConfig.config.UPDATE_BTC_BLOCK_STATUS,
   PREVIOUS_LAST_BLOCK_NUMBER: '',
   BTC_WALLET_ADDRESSES: `${name}_${zookeeperConfig.config.SERVER}_${zookeeperConfig.config.BTC_WALLET_ADDRESS}`,

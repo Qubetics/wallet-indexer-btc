@@ -2,7 +2,7 @@ import BigNumber from "bignumber.js";
 import { dbHelper } from ".";
 import { NotificationModel } from "../models/tables";
 import firebaseAdmin from 'firebase-admin';
-import { fcmServiceAccount } from "../constants/firebase.admin.key";
+import { config } from "../config";
 import { Op } from "sequelize";
 import { NotificationInterface } from "../models/interfaces";
 
@@ -13,7 +13,7 @@ class UtilityHelper {
   constructor() {
     (async () => {
       firebaseAdmin.initializeApp({
-        credential: firebaseAdmin.credential.cert(fcmServiceAccount),
+        credential: firebaseAdmin.credential.cert(config.config.FIREBASE_SERVICE_ACCOUNT),
       });
       this.messaging = firebaseAdmin.messaging();
     })();
