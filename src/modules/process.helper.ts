@@ -3,8 +3,6 @@ import redisClient from '../helpers/redis.helper';
 import database from '../config/db';
 import { QueryTypes } from 'sequelize';
 import { config } from '../config/config';
-// import { CoinInterface, WalletInterface } from '../../models/interfaces';
-// import { BooleanEnum } from '../../enum';
 import { CoinsModel } from '../models/tables';
 class BtcProcessHelper {
   constructor() {
@@ -77,18 +75,7 @@ class BtcProcessHelper {
       console.error('setKeyValuePair error', error);
     }
   }
-  // public fetchCoins = async () => {
-  //   try {
-  //     const getTokenQuery = `SELECT * FROM coins WHERE coin_status=1 AND coin_family=${config.STATIC_COIN_FAMILY.BTC}`;
-  //     const coins: CoinInterface[] = await database.db_read.query(getTokenQuery, {
-  //       type: Sequelize.QueryTypes.SELECT,
-  //     });
 
-  //     redisClient.set(config.TOKEN_TYPE_BTC || "", JSON.stringify(coins));
-  //   } catch (error) {
-  //     console.error('fetchERC20Tokens >>>>>', error);
-  //   }
-  // }
 
   public fetchCoins = async () => {
     try {
@@ -109,7 +96,6 @@ class BtcProcessHelper {
           this.setKeyValuePair(
             `${config.TOKEN_TYPE_BTC}`,
             coin.token_address == null ? 'Native'.toUpperCase() : coin.token_address.toUpperCase(),
-            // token.token_address.toUpperCase(),
             JSON.stringify(coin)
           );
         }
@@ -122,9 +108,6 @@ class BtcProcessHelper {
   public checkCoinData = async (address: string) => {
     try {
       const token_data: any = await this.getKeyValuePair(config.TOKEN_TYPE_BTC, address);
-      // if (token_data) {
-      //   console.log("token_data>>>>>>>>", token_data)
-      // }
       return JSON.parse(token_data);
     } catch (err: any) {
       console.error('checkCoinData >>>>>', err);
@@ -157,45 +140,6 @@ class BtcProcessHelper {
     }
   };
 
-
-
-
-  // public NativeCoinByCoinFamily = async (
-  // public nativeCoinByCoinFamily = async (
-  //   coin_family: number
-  // ) => {
-  //   try {
-  //     const getAsync = promisify(redisClient.get).bind(redisClient);
-  //     const value = await getAsync(config.TOKEN_TYPE_BTC || "");
-
-  //     const erc20Tokens: CoinInterface[] = value ? JSON.parse(value) : [];
-  //     return erc20Tokens.find(
-  //       (el: CoinInterface) => Number(el.is_token) === Number(BooleanEnum.false) && el.coin_family === coin_family
-  //     );
-
-  //   } catch (error: any) {
-  //     console.error(`NativeCoinByCoinFamily >>>`, error);
-  //     return null
-  //   }
-  // }
-  // // public CoinByCoinId = async (
-  // public coinByCoinId = async (
-  //   coin_id: number
-  // ) => {
-  //   try {
-  //     const getAsync = promisify(redisClient.get).bind(redisClient);
-  //     const value = await getAsync(config.TOKEN_TYPE_BTC || "");
-
-  //     const erc20Tokens: CoinInterface[] = value ? JSON.parse(value) : [];
-  //     return erc20Tokens.find(
-  //       (el: CoinInterface) => el.coin_id === coin_id
-  //     );
-
-  //   } catch (error: any) {
-  //     console.error(`coinByCoinId >>>`, error);
-  //     return null;
-  //   }
-  // }
 
   public async getMultipleKeyValuePairs(keyName: string, fields: string[]) {
     try {

@@ -11,6 +11,5 @@ export interface NotificationInterface {
   coin_family: string | null;
   coin_id: number;
   view_status?: string | null;
-  // state: string | null;
   wallet_address?: string | null;
 }

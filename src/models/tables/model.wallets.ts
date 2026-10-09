@@ -17,10 +17,6 @@ let dataObj = {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  // email: {
-  //   type: DataTypes.STRING,
-  //   allowNull: true,
-  // },
   wallet_name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -41,10 +37,6 @@ let dataObj = {
     type: DataTypes.DOUBLE,
     allowNull: false,
   },
-  // default_wallet: {
-  //   type: DataTypes.TINYINT,
-  //   allowNull: true,
-  // },
   status: {
     type: DataTypes.TINYINT,
     allowNull: true,
@@ -53,10 +45,6 @@ let dataObj = {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
-  // is_private_wallet: {
-  //   type: DataTypes.TINYINT,
-  //   allowNull: true,
-  // },
   created_at: {
     type: DataTypes.DATE,
     allowNull: false,
@@ -98,10 +86,6 @@ const dataObjIndex = {
       fields: ["balance"],
     },
 
-    // {
-    //   unique: false,
-    //   fields: ["default_wallet"],
-    // },
     {
       unique: false,
       fields: ["status"],
@@ -118,7 +102,6 @@ const WalletModel = db.db_write.define<WalletInstance>(
   dataObj,
   dataObjIndex
 );
-
 
 
 export default WalletModel;

@@ -10,7 +10,6 @@ import { Op } from "sequelize";
 class DbHelper {
     public btc_pending_balance_update_topic = config.KAFKA_BALANCE.BTC_PENDING_BALANCE_UPDATE_TOPIC;
 
-    // Update_Balance = async (
     updateBalance = async (
         wallet_address: string,
         coin: CoinInterface,

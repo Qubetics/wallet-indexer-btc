@@ -29,7 +29,6 @@ class UtilityHelper {
     try {
       const toUserId: number = data.to_user_id ? data.to_user_id : 0;
       const deviceTokens: any = await dbHelper.getDeviceTokens(toUserId, data.wallet_address, data.coin_family);
-      // console.log('deviceTokens >>>', deviceTokens);
       let finalDeviceTokens: any = [];
 
       for await (let deviceToken of deviceTokens) {
@@ -98,7 +97,6 @@ class UtilityHelper {
           wallet_address: data.wallet_address,
           tx_type: data.tx_type,
           view_status: "0",
-          // state: "0",
         };
         await NotificationModel.create(notificationData);
       }

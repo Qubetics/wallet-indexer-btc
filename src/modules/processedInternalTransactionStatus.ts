@@ -94,18 +94,6 @@ class BtcTxStatusUpdateProcess {
     await startWithReconnection();
   };
 
-  // public startTxStatusUpdateQueue = async () => {
-  //   let consumer = await kafkaHelper.kafka.consumer({ groupId: config.KAFKA_TRANSACTIONS.BTC_PENDING_WITHDRAWAL_TX_GROUP_ID });
-  //   await consumer.subscribe({ topic: config.KAFKA_TRANSACTIONS.BTC_PENDING_WITHDRAWAL_TX_TOPIC, fromBeginning: true });
-
-  //   await consumer.run({
-  //     eachMessage: ({ topic, partition, message }: { topic: any, partition: any, message: any }) => {
-  //       this.getTx(JSON.parse(message.value.toString()))
-  //     }
-  //   }).catch((err: Error) => {
-  //     console.log("🔥 ~ startBlockTxQueue consumer error", err);
-  //   });
-  // };
 
   public getTx = async (data: { txId: string }) => {
     try {
@@ -154,10 +142,8 @@ class BtcTxStatusUpdateProcess {
 
             const addresses = [fromAddress, toAddress].filter(Boolean);
             const results = await btcProcessHelper.getMultipleKeyValuePairs(`${config.BTC_WALLET_ADDRESSES}`, addresses);
-            // const Addressdeposit: any = await btcProcessHelper.checkOurWalletAddress(to_address);
             const [addressWithdraw, addressDeposit]: any = results as string[];
 
-            // let AddressWithdraw: any = await btcProcessHelper.checkOurWalletAddress(fromAddress);
             if (addressWithdraw) {
               const fetchBalance = await utxo.getUserBtcBalance(fromAddress);
               const balance: number | any = fetchBalance ? Number(fetchBalance) : null;
@@ -193,12 +179,10 @@ class BtcTxStatusUpdateProcess {
                 coin_id: coinId,
                 coin_family: coinFamily,
                 tx_type: txType,
-                // state: "confirmed"
               };
               utilityHelper.sendNotification(notifData);
             }
 
-            // let addressDeposit: any = await btcProcessHelper.checkOurWalletAddress(toAddress);
             if (addressDeposit) {
               const toUserId: number = addressDeposit ? JSON.parse(addressDeposit)?.user_id : 0;
               const trnxTypeD: string = "Deposit";
@@ -224,7 +208,6 @@ class BtcTxStatusUpdateProcess {
                 coin_family: coinFamily,
                 tx_type: txType,
                 notification_type: trnxTypeD,
-                // state: "confirmed"
               };
               utilityHelper.sendNotification(notifData);
             }
@@ -246,7 +229,6 @@ class BtcTxStatusUpdateProcess {
               coin_family: coinFamily,
               tx_type: txType,
               notification_type: trnxTypeW,
-              // state: "failed"
             };
             utilityHelper.sendNotification(notifData);
           }
@@ -261,7 +243,6 @@ class BtcTxStatusUpdateProcess {
       console.error("error in btc sendTxUpdate>>>>.", error)
     }
   };
-
 
 
 }

@@ -29,7 +29,6 @@ class ZookeeprProvider {
             }
             if (data) {
               this.config = JSON.parse(data.toString('utf8'));
-              // console.log('this.config >>>', this.config);
             }
             resolve(true);
           }
