@@ -13,7 +13,7 @@ class BtcPendingWithdrawalProcess {
         where: {
           status: 'completed',
           [Op.or]: [{ blockchain_status: null }, { blockchain_status: 'pending' }],
-          req_type: { [Op.notIn]: ['TRANSAK', 'ALCHEMY', 'MERCURYO'] },
+          req_type: { [Op.in]: ['APP', 'EXNG'] },
           coin_family: config.config.STATIC_COIN_FAMILY.BTC,
           tx_id: { [Op.not]: null }
         },
