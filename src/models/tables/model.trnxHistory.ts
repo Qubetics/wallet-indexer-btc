@@ -103,10 +103,6 @@ const dataObj = {
         type: DataTypes.DOUBLE,
         allowNull: true
     },
-    // fiat_price: {
-    //     type: DataTypes.DOUBLE,
-    //     allowNull: true
-    // },
     fiat_type: {
         type: DataTypes.STRING(191),
         allowNull: true

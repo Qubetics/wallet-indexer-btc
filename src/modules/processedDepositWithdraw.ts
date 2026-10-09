@@ -97,18 +97,7 @@ class confirmWithdrawDepositProcess {
     // Start the consumer with reconnection
     await startWithReconnection();
   };
-  // public startDepositQueue = async () => {
-  //   let consumer = await kafkaHelper.kafka.consumer({ groupId: config.KAFKA_TRANSACTIONS.DEPOSIT_WITHDRAW_GROUP_ID });
-  //   await consumer.subscribe({ topic: config.KAFKA_TRANSACTIONS.DEPOSIT_WITHDRAW_TOPIC, fromBeginning: true });
 
-  //   await consumer.run({
-  //     eachMessage: ({ topic, partition, message }: { topic: any, partition: any, message: any }) => {
-  //       this.getTransaction(JSON.parse(message.value.toString()))
-  //     }
-  //   }).catch((err: Error) => {
-  //     console.log("🔥 ~ startBlockTxQueue consumer error", err);
-  //   });
-  // };
 
   public getTransaction = async (data: {
     tx_id: string;
@@ -267,7 +256,6 @@ class confirmWithdrawDepositProcess {
       }
       const newTrnx: any = await TrnxHistoryModel.create(trx_data)
 
-      // let AddressWithdraw: any = await btcProcessHelper.checkOurWalletAddress(fromAddress);
       if (withdrawAddressExist) {
         const fetchBalance = await utxo.getUserBtcBalance(fromAddress);
         const balance: number | any = fetchBalance ? Number(fetchBalance) : null;
@@ -296,7 +284,6 @@ class confirmWithdrawDepositProcess {
           coin_id: data.coin.coin_id,
           coin_family: data.coin.coin_family,
           tx_type: trnxTypeW,
-          // state: "confirmed"
         };
         utilityHelper.sendNotification(notifData);
       }
@@ -326,7 +313,6 @@ class confirmWithdrawDepositProcess {
           coin_id: data.coin.coin_id,
           tx_type: txType,
           notification_type: trnxTypeD,
-          // state: "confirmed",
           amount: amount
         };
         utilityHelper.sendNotification(notifData);

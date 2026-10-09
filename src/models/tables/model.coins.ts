@@ -51,10 +51,6 @@ const dataObj = {
         type: DataTypes.INTEGER,
         allowNull: true,
     },
-    // token_abi: {
-    //     type: DataTypes.STRING,
-    //     allowNull: true,
-    // },
     token_address: {
         type: DataTypes.STRING,
         allowNull: true,
@@ -146,7 +142,6 @@ const CoinsModel = db.db_write.define<CoinInstance>(
     dataObj,
     dataObjIndex
 );
-
 
 
 export default CoinsModel;

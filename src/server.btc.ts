@@ -15,7 +15,6 @@ class BTCStartProcess {
     this.btcTxStatusUpdateProcess();
     this.readSpecificBlock();
     this.btcUpdatePendingTxBalance();
-    // this.testing_node()
 
   }
 
@@ -23,11 +22,6 @@ class BTCStartProcess {
     await kafkaHelper.connect();
   }
 
-  // public testing_node() {
-  //   schedule.scheduleJob("*/2 * * * * *", async function () {
-  //     await btcBlocksProdProcess.testingNode();
-  //   });
-  // }
 
   public readBlocksProcess() {
     schedule.scheduleJob('*/15 * * * * *', async function () {

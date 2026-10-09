@@ -7,7 +7,6 @@ class updateBalanceProcess {
     public btc_pending_balance_update_topic = config.config.KAFKA_BALANCE.BTC_PENDING_BALANCE_UPDATE_TOPIC;
     public btc_pending_balance_update_group = config.config.KAFKA_BALANCE.BTC_PENDING_BALANCE_UPDATE_GROUP_ID;
 
-    // public update_wallet_balance = async () => {
     public updateWalletBalance = async () => {
         let consumer: any = null;
         let isConnected = false;
@@ -94,19 +93,6 @@ class updateBalanceProcess {
         await startWithReconnection();
     };
 
-    // public update_wallet_balance = async () => {
-    //     let consumer = await kafkaHelper.kafka.consumer({ groupId: this.btc_pending_balance_update_group });
-
-    //     await consumer.subscribe({ topic: this.btc_pending_balance_update_topic, fromBeginning: true });
-
-    //     await consumer.run({
-    //         eachMessage: ({ topic, partition, message }: { topic: any, partition: any, message: any }) => {
-    //             this.updateBalance(JSON.parse(message.value.toString()))
-    //         }
-    //     }).catch((err: Error) => {
-    //         console.log("🔥 ~ startBlockTxQueue consumer error", err);
-    //     });
-    // };
 
     public updateBalance = async (data: any) => {
         try {
@@ -130,7 +116,6 @@ class updateBalanceProcess {
             console.error("Error in updateBalance", err)
         }
     }
-
 
 
 }

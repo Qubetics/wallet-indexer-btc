@@ -54,14 +54,11 @@ class BtcBlockReadProcess {
             if (iterator.vout && iterator.vout.length > 0) {
               const voutPromises = iterator.vout.map(async (txData: any) => {
                 const to_address = txData && txData.addresses && txData.addresses.length > 0 && txData.addresses[0] ? txData.addresses[0].toUpperCase() : "";
-                // console.log('to_address >>>>>', to_address);
                 if (iterator?.vin && iterator.vin[0]?.addresses) {
                   from = iterator.vin[0].addresses[0];
                 }
-                // const wallet_data = await btcProcessHelper.checkOurWalletAddress(to_address);
 
                 const addresses = [from, to_address].filter(Boolean);
-                // console.log('addresses >>>', addresses);
                 if (addresses.length > 0) {
                   const amount: any = (parseFloat(txData.value) / 100000000).toString();
                   const dataObj: {
@@ -83,24 +80,17 @@ class BtcBlockReadProcess {
                   };
 
                   const results: any = await btcProcessHelper.getMultipleKeyValuePairs(`${config.BTC_WALLET_ADDRESSES}`, addresses);
-                  // console.log('results >>>', results?.length);
                   if (results) {
                     if (from !== '' && results?.length > 1) {
                       const [withdrawTx, depositTx] = results as string[];
-                      // console.log('withdrawTx results >>>', withdrawTx);
-                      // console.log('Deposit results >>>', depositTx);
                       if (depositTx) {
-                        // console.log('Deposit results >>>', depositTx);
                         dataObj.tx_type = TrnxTypeEnum.DEPOSIT;
                       } else if (from !== '' && withdrawTx) {
-                        // console.log('Withdraw results >>>', withdrawTx);
                         dataObj.tx_type = TrnxTypeEnum.WITHDRAW;
                       }
                     } else {
                       const [depositTx] = results as string[];
-                      // console.log('Deposit results >>>', depositTx);
                       if (depositTx) {
-                        // console.log('Deposit results >>>', depositTx);
                         dataObj.tx_type = TrnxTypeEnum.DEPOSIT;
                       }
                     }
