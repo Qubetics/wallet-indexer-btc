@@ -140,16 +140,6 @@ class BtcProcessHelper {
     }
   };
 
-  public checkOurWalletAddress = async (address: string) => {
-    try {
-      let wallet_data: any = await this.getKeyValuePair(config.BTC_WALLET_ADDRESSES, address)
-      return JSON.parse(wallet_data);
-    } catch (error: any) {
-      console.error('checkOurWalletAddress >>>>>', error);
-      return null;
-    }
-  }
-
 
   public async getMultipleKeyValuePairs(keyName: string, fields: string[]) {
     try {
