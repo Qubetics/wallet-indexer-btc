@@ -89,7 +89,6 @@ class ConfirmDepositProcess {
               [Op.like]: tx_hash,
             },
             to_adrs: to_address,
-            req_type: { [Op.notIn]: [TxReqTypesEnum.ALCHEMY, TxReqTypesEnum.TRANSAK] }
           },
           raw: true,
         });
@@ -108,7 +107,6 @@ class ConfirmDepositProcess {
               [Op.like]: tx_hash,
             },
             from_adrs: from_address,
-            req_type: { [Op.notIn]: [TxReqTypesEnum.ALCHEMY, TxReqTypesEnum.TRANSAK] }
           },
           raw: true,
         });
