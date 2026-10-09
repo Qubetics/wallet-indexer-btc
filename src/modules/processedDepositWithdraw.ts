@@ -163,7 +163,6 @@ class confirmWithdrawDepositProcess {
               [Op.like]: txHash,
             },
             to_adrs: { [Op.like]: toAddress },
-            req_type: { [Op.notIn]: [TxReqTypesEnum.ALCHEMY, TxReqTypesEnum.TRANSAK] }
           },
           raw: true,
         });
@@ -182,7 +181,6 @@ class confirmWithdrawDepositProcess {
               [Op.like]: txHash,
             },
             from_adrs: { [Op.like]: fromAddress },
-            req_type: { [Op.notIn]: [TxReqTypesEnum.ALCHEMY, TxReqTypesEnum.TRANSAK] }
           },
           raw: true,
         });
