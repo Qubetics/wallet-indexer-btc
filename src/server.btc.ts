@@ -7,8 +7,6 @@ import { config } from './config/config';
 import pendingBalanceUpdateBtc from './modules/prod_processes/updating_pending_address_balance.process';
 
 
-
-
 class BTCStartProcess {
   constructor() {
     this.readBlocksProcess();
@@ -17,16 +15,9 @@ class BTCStartProcess {
     this.btcTxStatusUpdateProcess();
     this.readSpecificBlock();
     this.btcUpdatePendingTxBalance();
-    // this.testing_node()
 
   }
 
-
-  // public testing_node() {
-  //   schedule.scheduleJob("*/2 * * * * *", async function () {
-  //     await btcBlocksProdProcess.testingNode();
-  //   });
-  // }
 
   public readBlocksProcess() {
     schedule.scheduleJob('*/15 * * * * *', async function () {
