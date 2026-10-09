@@ -6,7 +6,7 @@
   "scripts": {
     "compile": "tsc",
     "server": "nodemon build/index.btc.js",
-    "dev": "concurrently \"npm run compile\" \"npm run server\"",
+    "dev": "npm run compile && npm run server",
     "start": "npm run compile && node build/index.btc.js",
     "test": "tsc && node --test test/*.test.js"
   },
