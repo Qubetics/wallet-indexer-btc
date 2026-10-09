@@ -12,16 +12,6 @@ class UTXO {
     };
   }
 
-  async getNodeInfo() {
-    try {
-      this.config.url = `${config.config.BTC_RPC_URL}`
-      const response = await axios(this.config);
-      return response.data;
-    } catch (error: any) {
-      console.error('getNodeInfo error', error);
-    }
-  }
-
   async getLatestBlock() {
     try {
       this.config.url = `${config.config.BTC_RPC_URL}api/`
