@@ -3,7 +3,6 @@ import btcBlocksProdProcess from './modules/prod_processes/blocks.process';
 import confirmDepositProdProcess from './modules/prod_processes/confirm.deposit.process';
 import btcTxStatusUpdateProdProcess from './modules/prod_processes/confirm.withdraw.process';
 import btcPendingWithdrawalProdProcess from './modules/prod_processes/withdraw.process';
-import { config } from './config/config';
 import pendingBalanceUpdateBtc from './modules/prod_processes/updating_pending_address_balance.process';
 
 

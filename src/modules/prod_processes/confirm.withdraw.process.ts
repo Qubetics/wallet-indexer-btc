@@ -3,9 +3,8 @@ import utxo from './utxo';
 import { Db_Helper, Kafka_Helper, Utility_Helper } from '../../helpers';
 import { TrnxHistoryModel } from '../../models/tables';
 import { Op } from 'sequelize';
-import { BlockChainStatusEnum, NotificationTypeEnum, TrnxTypeEnum } from '../../enum/index';
+import { BlockChainStatusEnum } from '../../enum/index';
 import btcProcessHelper from '../prod_processes/process.helper';
-import { title } from 'process';
 class BTCTxStatusUpdateProcess {
 
   public startTxStatusUpdateQueue = async () => {

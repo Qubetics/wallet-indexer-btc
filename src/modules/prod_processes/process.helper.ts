@@ -3,7 +3,7 @@ import redisClient from '../../helpers/redis.helper';
 import database from '../../config/db';
 import Sequelize, { QueryTypes } from 'sequelize';
 import { config } from '../../config/config';
-import { CoinInterface, WalletInterface } from '../../models/interfaces';
+import { CoinInterface } from '../../models/interfaces';
 import { BooleanEnum } from '../../enum';
 class BTCProcessHelper {
   constructor() {

@@ -6,7 +6,7 @@ import { BlockChainStatusEnum, TxReqTypesEnum } from '../../enum/index';
 import { TrnxTypeEnum } from '../../enum/index';
 import btcProcessHelper from './process.helper';
 import { NotificationTypeEnum } from '../../enum';
-import { CoinInterface, NotificationInterface } from '../../models/interfaces';
+import { CoinInterface } from '../../models/interfaces';
 import utxo from './utxo';
 import { Db_Helper, Utility_Helper } from '../../helpers/index';
 class ConfirmDepositProcess {
