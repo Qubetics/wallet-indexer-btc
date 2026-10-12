@@ -1,5 +1,5 @@
 import { config } from '../config';
-import axios, { AxiosInstance } from "axios";
+import axios from "axios";
 class UTXO {
   public config: any;
   private rpcConfig: any;
