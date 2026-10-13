@@ -4,10 +4,7 @@ export enum BooleanEnum {
 }
 export enum NotificationTypeEnum {
     DEPOSIT = 'deposit',
-    WITHDRAW = 'withdraw',
 }
 export enum TxReqTypesEnum {
-    APP = 'APP',
     EXNG = 'EXNG',
-    NOTPRESET = 'NOT_PRESENT'
   }
