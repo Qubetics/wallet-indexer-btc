@@ -1,7 +1,7 @@
 import zookeeper from 'node-zookeeper-client';
 
 import { config } from 'dotenv';
-config();
+config({ quiet: true });
 
 const client = zookeeper.createClient(
   process.env.ZOOKEEPER_HOST ||
