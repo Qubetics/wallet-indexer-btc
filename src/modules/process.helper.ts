@@ -1,4 +1,3 @@
-import { promisify } from 'util';
 import redisClient from '../helpers/redis.helper';
 import database from '../config/db';
 import { QueryTypes } from 'sequelize';
@@ -11,7 +10,7 @@ class BtcProcessHelper {
   }
   public setRedisSting = async (key: string, value: number) => {
     try {
-      redisClient.set(key, value.toString());
+      await redisClient.set(key, value.toString());
     } catch (error) {
       console.error('setRedisSting error', error);
     }
@@ -19,10 +18,7 @@ class BtcProcessHelper {
 
   public getBlockNumber = async (key: string) => {
     try {
-      const getAsync = promisify(redisClient.get).bind(
-        redisClient
-      );
-      const value = await getAsync(key);
+      const value = await redisClient.get(key);
       if (value) return parseInt(value);
       return null;
     } catch (error) {
@@ -37,7 +33,7 @@ class BtcProcessHelper {
   ) => {
     try {
       const updatedBlockNumber = ++lastBlockProcessed;
-      redisClient.set(key, updatedBlockNumber.toString());
+      await redisClient.set(key, updatedBlockNumber.toString());
     } catch (error) {
       console.error('updateLastBlockProcessed error', error);
     }
@@ -45,10 +41,7 @@ class BtcProcessHelper {
 
   public getKeyValuePair = async (keyName: string, field: string) => {
     try {
-      const getAsync = promisify(redisClient.hget).bind(
-        redisClient
-      );
-      let value: any = await getAsync(keyName, field.toUpperCase() || '');
+      let value: any = await redisClient.hGet(keyName, field.toUpperCase() || '');
       if (value) {
         return value;
       } else {
@@ -66,7 +59,7 @@ class BtcProcessHelper {
     value: string
   ) => {
     try {
-      redisClient.hset(
+      await redisClient.hSet(
         keyName,
         field.toUpperCase(),
         value
@@ -144,12 +137,7 @@ class BtcProcessHelper {
   public async getMultipleKeyValuePairs(keyName: string, fields: string[]) {
     try {
       const upperFields = fields.map(f => f.toUpperCase());
-      return new Promise((resolve, reject) => {
-        redisClient.hmget(keyName, ...upperFields, (err, results) => {
-          if (err) reject(err);
-          else resolve(results);
-        });
-      });
+      return await redisClient.hmGet(keyName, upperFields);
     } catch (err: any) {
       console.error('getMultipleKeyValuePairs >>>>', err);
       return null;
