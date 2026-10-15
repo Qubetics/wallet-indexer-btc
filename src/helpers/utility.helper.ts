@@ -7,6 +7,14 @@ import { config } from "../config";
 import { Op } from "sequelize";
 import { NotificationInterface } from "../models/interfaces";
 
+// bignumber.js 10+ throws on input it cannot parse where 9 returned NaN; keep returning NaN so callers behave as before.
+const toBigNumber = (value: any): BigNumber => {
+  try {
+    return new BigNumber(value);
+  } catch {
+    return new BigNumber(NaN);
+  }
+};
 
 class UtilityHelper {
   public messaging!: Messaging;
@@ -22,7 +30,7 @@ class UtilityHelper {
 
   bigNumberSafeConversion = async (val: number) => {
     const amount = val.toString();
-    const value = new BigNumber(amount);
+    const value = toBigNumber(amount);
     return value.toFixed();
   };
 
