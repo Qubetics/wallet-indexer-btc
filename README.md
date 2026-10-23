@@ -6,8 +6,8 @@ Background service for Bitcoin (BTC). It reads new blocks, confirms deposits to 
 
 | Requirement | Version / notes |
 |---|---|
-| Node.js | 18.18.2 (same as the Docker image) |
-| npm | 9 or newer |
+| Node.js | 24.22.1 (same as the Docker image and `.nvmrc`) |
+| npm | 11 (bundled with Node 24) |
 | ZooKeeper | Holds the service configuration (see below) |
 | MySQL | Shared wallet database (read and write hosts) |
 | Redis | Last processed block and cached wallet lookups |
