@@ -1,0 +1,7 @@
+node_modules
+build
+package-lock.json
+.vscode
+.vscode/
+.env
+btc_audit.md
